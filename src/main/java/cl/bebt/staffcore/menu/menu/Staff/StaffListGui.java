@@ -1,7 +1,7 @@
 package cl.bebt.staffcore.menu.menu.Staff;
 
 import cl.bebt.staffcore.API.StaffCoreAPI;
-import cl.bebt.staffcore.main;
+import cl.bebt.staffcore.StaffCorePlugin;
 import cl.bebt.staffcore.menu.PaginatedMenu;
 import cl.bebt.staffcore.menu.PlayerMenuUtility;
 import cl.bebt.staffcore.utils.TpPlayers;
@@ -18,118 +18,118 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.ArrayList;
 
 public class StaffListGui extends PaginatedMenu {
-    
-    private final main plugin;
-    
-    public StaffListGui( PlayerMenuUtility playerMenuUtility , main plugin ){
-        super( playerMenuUtility );
+
+    private final StaffCorePlugin plugin;
+
+    public StaffListGui(PlayerMenuUtility playerMenuUtility, StaffCorePlugin plugin) {
+        super(playerMenuUtility);
         this.plugin = plugin;
     }
-    
+
     @Override
-    public String getMenuName( ){
-        return utils.chat( utils.getString( "others.staff_list.name" , "menu" , null ) );
+    public String getMenuName() {
+        return utils.chat(utils.getString("others.staff_list.name", "menu", null));
     }
-    
+
     @Override
-    public int getSlots( ){
+    public int getSlots() {
         return 54;
     }
-    
+
     @Override
-    public void handleMenu( InventoryClickEvent e ){
-        Player p = ( Player ) e.getWhoClicked( );
-        ArrayList < Player > players = new ArrayList <>( );
-        p.getInventory( );
-        for ( Player player : Bukkit.getServer( ).getOnlinePlayers( ) ) {
-            if ( player.hasPermission( "staffcore.staff" ) ) {
-                players.add( player );
+    public void handleMenu(InventoryClickEvent e) {
+        Player p = (Player) e.getWhoClicked();
+        ArrayList<Player> players = new ArrayList<>();
+        p.getInventory();
+        for (Player player : Bukkit.getServer().getOnlinePlayers()) {
+            if (player.hasPermission("staffcore.staff")) {
+                players.add(player);
             }
         }
-        if ( e.getCurrentItem( ).getItemMeta( ).getPersistentDataContainer( ).has( new NamespacedKey( plugin , "staff" ) , PersistentDataType.STRING ) ) {
-            p.closeInventory( );
-            String target = e.getCurrentItem( ).getItemMeta( ).getPersistentDataContainer( ).get( new NamespacedKey( plugin , "name" ) , PersistentDataType.STRING );
-            TpPlayers.tpToPlayer( p , target );
-        } else if ( e.getCurrentItem( ).equals( close( ) ) ) {
-            p.closeInventory( );
-        } else if ( e.getCurrentItem( ).equals( back( ) ) ) {
-            if ( page == 0 ) {
-                utils.tell( p , utils.getString( "menu.already_in_first_page" , "lg" , "sv" ) );
+        if (e.getCurrentItem().getItemMeta().getPersistentDataContainer().has(new NamespacedKey(plugin, "staff"), PersistentDataType.STRING)) {
+            p.closeInventory();
+            String target = e.getCurrentItem().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(plugin, "name"), PersistentDataType.STRING);
+            TpPlayers.tpToPlayer(p, target);
+        } else if (e.getCurrentItem().equals(close())) {
+            p.closeInventory();
+        } else if (e.getCurrentItem().equals(back())) {
+            if (page == 0) {
+                utils.tell(p, utils.getString("menu.already_in_first_page", "lg", "sv"));
             } else {
                 page--;
-                p.closeInventory( );
-                open( );
+                p.closeInventory();
+                open();
             }
-        } else if ( e.getCurrentItem( ).equals( next( ) ) ) {
-            if ( index + 1 <= players.size( ) ) {
+        } else if (e.getCurrentItem().equals(next())) {
+            if (index + 1 <= players.size()) {
                 page++;
-                p.closeInventory( );
-                open( );
+                p.closeInventory();
+                open();
             } else {
-                utils.tell( p , utils.getString( "menu.already_in_last_page" , "lg" , "sv" ) );
+                utils.tell(p, utils.getString("menu.already_in_last_page", "lg", "sv"));
             }
         }
     }
-    
+
     @Override
-    public void setMenuItems( ){
-        addMenuBorder( );
-        ArrayList < Player > players = new ArrayList <>( );
-        for ( Player p : Bukkit.getServer( ).getOnlinePlayers( ) ) {
-            if ( p.hasPermission( "staffcore.staff" ) ) {
-                players.add( p );
+    public void setMenuItems() {
+        addMenuBorder();
+        ArrayList<Player> players = new ArrayList<>();
+        for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+            if (p.hasPermission("staffcore.staff")) {
+                players.add(p);
             }
         }
-        if ( players != null && !players.isEmpty( ) ) {
-            for ( int i = 0; i < getMaxItemsPerPage( ); i++ ) {
-                index = getMaxItemsPerPage( ) * page + i;
-                if ( index >= players.size( ) ) break;
-                if ( players.get( index ) != null ) {
+        if (players != null && !players.isEmpty()) {
+            for (int i = 0; i < getMaxItemsPerPage(); i++) {
+                index = getMaxItemsPerPage() * page + i;
+                if (index >= players.size()) break;
+                if (players.get(index) != null) {
                     //////////////////////////////
-                    ItemStack p_head = utils.getPlayerHead( players.get( index ).getName( ) );
-                    ItemMeta meta = p_head.getItemMeta( );
-                    ArrayList < String > lore = new ArrayList <>( );
-                    meta.setDisplayName( utils.chat( "&a" + players.get( index ).getName( ) ) );
-                    if ( players.get( index ).getPersistentDataContainer( ).has( new NamespacedKey( plugin , "staff" ) , PersistentDataType.STRING ) ) {
-                        lore.add( utils.chat( "&7Staff Mode: &aTrue" ) );
+                    ItemStack p_head = utils.getPlayerHead(players.get(index).getName());
+                    ItemMeta meta = p_head.getItemMeta();
+                    ArrayList<String> lore = new ArrayList<>();
+                    meta.setDisplayName(utils.chat("&a" + players.get(index).getName()));
+                    if (players.get(index).getPersistentDataContainer().has(new NamespacedKey(plugin, "staff"), PersistentDataType.STRING)) {
+                        lore.add(utils.chat("&7Staff Mode: &aTrue"));
                     } else {
-                        lore.add( utils.chat( "&7Staff Mode: &cFalse" ) );
+                        lore.add(utils.chat("&7Staff Mode: &cFalse"));
                     }
-                    if ( players.get( index ).getPersistentDataContainer( ).has( new NamespacedKey( plugin , "vanished" ) , PersistentDataType.STRING ) ) {
-                        lore.add( utils.chat( "&7Vanished: &aTrue" ) );
+                    if (players.get(index).getPersistentDataContainer().has(new NamespacedKey(plugin, "vanished"), PersistentDataType.STRING)) {
+                        lore.add(utils.chat("&7Vanished: &aTrue"));
                     } else {
-                        lore.add( utils.chat( "&7Vanished: &cFalse" ) );
+                        lore.add(utils.chat("&7Vanished: &cFalse"));
                     }
-                    if ( players.get( index ).getPersistentDataContainer( ).has( new NamespacedKey( plugin , "staffchat" ) , PersistentDataType.STRING ) ) {
-                        lore.add( utils.chat( "&7Staff Chat: &aTrue" ) );
+                    if (players.get(index).getPersistentDataContainer().has(new NamespacedKey(plugin, "staffchat"), PersistentDataType.STRING)) {
+                        lore.add(utils.chat("&7Staff Chat: &aTrue"));
                     } else {
-                        lore.add( utils.chat( "&7Staff Chat: &cFalse" ) );
+                        lore.add(utils.chat("&7Staff Chat: &cFalse"));
                     }
-                    if ( players.get( index ).getPersistentDataContainer( ).has( new NamespacedKey( plugin , "flying" ) , PersistentDataType.STRING ) || players.get( index ).getGameMode( ).equals( GameMode.CREATIVE ) ) {
-                        lore.add( utils.chat( "&7Flying: &aTrue" ) );
+                    if (players.get(index).getPersistentDataContainer().has(new NamespacedKey(plugin, "flying"), PersistentDataType.STRING) || players.get(index).getGameMode().equals(GameMode.CREATIVE)) {
+                        lore.add(utils.chat("&7Flying: &aTrue"));
                     } else {
-                        lore.add( utils.chat( "&7Flying: &cFalse" ) );
+                        lore.add(utils.chat("&7Flying: &cFalse"));
                     }
-                    if ( players.get( index ).getGameMode( ).equals( GameMode.CREATIVE ) ) {
-                        lore.add( utils.chat( "&7Gamemode: &aCreative" ) );
+                    if (players.get(index).getGameMode().equals(GameMode.CREATIVE)) {
+                        lore.add(utils.chat("&7Gamemode: &aCreative"));
                     }
-                    if ( players.get( index ).getGameMode( ).equals( GameMode.SURVIVAL ) ) {
-                        lore.add( utils.chat( "&7Gamemode: &aSurvival" ) );
+                    if (players.get(index).getGameMode().equals(GameMode.SURVIVAL)) {
+                        lore.add(utils.chat("&7Gamemode: &aSurvival"));
                     }
-                    if ( players.get( index ).getGameMode( ).equals( GameMode.SPECTATOR ) ) {
-                        lore.add( utils.chat( "&7Gamemode: &aSpectator" ) );
+                    if (players.get(index).getGameMode().equals(GameMode.SPECTATOR)) {
+                        lore.add(utils.chat("&7Gamemode: &aSpectator"));
                     }
-                    if ( StaffCoreAPI.getTrollStatus( players.get( index ).getName( ) ) ) {
-                        lore.add( utils.chat( "&7Troll Mode: &aON" ) );
+                    if (StaffCoreAPI.getTrollStatus(players.get(index).getName())) {
+                        lore.add(utils.chat("&7Troll Mode: &aON"));
                     }
-                    if ( !StaffCoreAPI.getTrollStatus( players.get( index ).getName( ) ) ) {
-                        lore.add( utils.chat( "&7Troll Mode: &cOFF" ) );
+                    if (!StaffCoreAPI.getTrollStatus(players.get(index).getName())) {
+                        lore.add(utils.chat("&7Troll Mode: &cOFF"));
                     }
-                    meta.setLore( lore );
-                    meta.getPersistentDataContainer( ).set( new NamespacedKey( plugin , "staff" ) , PersistentDataType.STRING , "staff" );
-                    meta.getPersistentDataContainer( ).set( new NamespacedKey( plugin , "name" ) , PersistentDataType.STRING , players.get( index ).getName( ) );
-                    p_head.setItemMeta( meta );
-                    inventory.addItem( p_head );
+                    meta.setLore(lore);
+                    meta.getPersistentDataContainer().set(new NamespacedKey(plugin, "staff"), PersistentDataType.STRING, "staff");
+                    meta.getPersistentDataContainer().set(new NamespacedKey(plugin, "name"), PersistentDataType.STRING, players.get(index).getName());
+                    p_head.setItemMeta(meta);
+                    inventory.addItem(p_head);
                     /////////////////////////////
                 }
             }

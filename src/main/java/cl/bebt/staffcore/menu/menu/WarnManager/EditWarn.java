@@ -1,6 +1,6 @@
 package cl.bebt.staffcore.menu.menu.WarnManager;
 
-import cl.bebt.staffcore.main;
+import cl.bebt.staffcore.StaffCorePlugin;
 import cl.bebt.staffcore.menu.PlayerMenuUtility;
 import cl.bebt.staffcore.menu.menu.Reports.ReportMenu;
 import cl.bebt.staffcore.utils.WarnPlayer;
@@ -15,16 +15,16 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.ArrayList;
 
 public class EditWarn extends ReportMenu {
-    
+
     private static PlayerMenuUtility playerMenuUtility;
-    private final main plugin;
+    private final StaffCorePlugin plugin;
     private final int Id;
     private final String warned;
     private final Player p;
     private final String status;
-    
-    public EditWarn( PlayerMenuUtility playerMenuUtility , main plugin , Player p , String warned , String status , int Id ){
-        super( playerMenuUtility , plugin , warned );
+
+    public EditWarn(PlayerMenuUtility playerMenuUtility, StaffCorePlugin plugin, Player p, String warned, String status, int Id) {
+        super(playerMenuUtility, plugin, warned);
         EditWarn.playerMenuUtility = playerMenuUtility;
         this.plugin = plugin;
         this.p = p;
@@ -32,120 +32,120 @@ public class EditWarn extends ReportMenu {
         this.warned = warned;
         this.status = status;
     }
-    
-    public static PlayerMenuUtility getPlayerMenuUtility( ){
+
+    public static PlayerMenuUtility getPlayerMenuUtility() {
         return playerMenuUtility;
     }
-    
+
     @Override
-    public String getMenuName( ){
-        return utils.chat( utils.getString( "warns.edit.name" , "menu" , null ) );
+    public String getMenuName() {
+        return utils.chat(utils.getString("warns.edit.name", "menu", null));
     }
-    
+
     @Override
-    public int getSlots( ){
+    public int getSlots() {
         return 45;
     }
-    
+
     @Override
-    public void handleMenu( InventoryClickEvent e ){
-        Player p = ( Player ) e.getWhoClicked( );
-        if ( e.getCurrentItem( ).getItemMeta( ).getPersistentDataContainer( ).has( new NamespacedKey( plugin , "open" ) , PersistentDataType.STRING ) ) {
-            p.closeInventory( );
-            WarnPlayer.CloseWarn( p , Id );
-            e.setCancelled( true );
-        } else if ( e.getCurrentItem( ).getItemMeta( ).getPersistentDataContainer( ).has( new NamespacedKey( plugin , "closed" ) , PersistentDataType.STRING ) ) {
-            p.closeInventory( );
-            WarnPlayer.OpenWarn( p , Id );
-            e.setCancelled( true );
-        } else if ( e.getCurrentItem( ).getItemMeta( ).getPersistentDataContainer( ).has( new NamespacedKey( plugin , "delete" ) , PersistentDataType.STRING ) ) {
-            p.closeInventory( );
-            WarnPlayer.DeleteWarn( p , Id );
-            e.setCancelled( true );
-        } else if ( e.getCurrentItem( ).getItemMeta( ).getPersistentDataContainer( ).has( new NamespacedKey( plugin , "panel" ) , PersistentDataType.STRING ) ) {
-            e.setCancelled( true );
-        } else if ( e.getCurrentItem( ).equals( close( ) ) ) {
-            p.closeInventory( );
-            if ( e.getClick( ).isLeftClick( ) ) {
-                new Warnings( main.getPlayerMenuUtility( p ) , plugin , p , warned ).open( );
+    public void handleMenu(InventoryClickEvent e) {
+        Player p = (Player) e.getWhoClicked();
+        if (e.getCurrentItem().getItemMeta().getPersistentDataContainer().has(new NamespacedKey(plugin, "open"), PersistentDataType.STRING)) {
+            p.closeInventory();
+            WarnPlayer.CloseWarn(p, Id);
+            e.setCancelled(true);
+        } else if (e.getCurrentItem().getItemMeta().getPersistentDataContainer().has(new NamespacedKey(plugin, "closed"), PersistentDataType.STRING)) {
+            p.closeInventory();
+            WarnPlayer.OpenWarn(p, Id);
+            e.setCancelled(true);
+        } else if (e.getCurrentItem().getItemMeta().getPersistentDataContainer().has(new NamespacedKey(plugin, "delete"), PersistentDataType.STRING)) {
+            p.closeInventory();
+            WarnPlayer.DeleteWarn(p, Id);
+            e.setCancelled(true);
+        } else if (e.getCurrentItem().getItemMeta().getPersistentDataContainer().has(new NamespacedKey(plugin, "panel"), PersistentDataType.STRING)) {
+            e.setCancelled(true);
+        } else if (e.getCurrentItem().equals(close())) {
+            p.closeInventory();
+            if (e.getClick().isLeftClick()) {
+                new Warnings(StaffCorePlugin.getPlayerMenuUtility(p), plugin, p, warned).open();
             }
         }
     }
-    
-    
+
+
     @Override
-    public void setMenuItems( ){
-        for ( int i = 0; i < 10; i++ ) {
-            if ( inventory.getItem( i ) == null ) {
-                inventory.setItem( i , super.bluePanel( ) );
+    public void setMenuItems() {
+        for (int i = 0; i < 10; i++) {
+            if (inventory.getItem(i) == null) {
+                inventory.setItem(i, super.bluePanel());
             }
         }
-        for ( int i = 10; i < 17; i++ ) {
-            if ( inventory.getItem( i ) == null ) {
-                inventory.setItem( i , super.redPanel( ) );
+        for (int i = 10; i < 17; i++) {
+            if (inventory.getItem(i) == null) {
+                inventory.setItem(i, super.redPanel());
             }
         }
-        inventory.setItem( 17 , super.bluePanel( ) );
-        inventory.setItem( 18 , super.bluePanel( ) );
-        inventory.setItem( 19 , super.redPanel( ) );
-        inventory.setItem( 25 , super.redPanel( ) );
-        inventory.setItem( 26 , super.bluePanel( ) );
-        inventory.setItem( 27 , super.bluePanel( ) );
-        for ( int i = 28; i < 35; i++ ) {
-            if ( inventory.getItem( i ) == null ) {
-                inventory.setItem( i , super.redPanel( ) );
+        inventory.setItem(17, super.bluePanel());
+        inventory.setItem(18, super.bluePanel());
+        inventory.setItem(19, super.redPanel());
+        inventory.setItem(25, super.redPanel());
+        inventory.setItem(26, super.bluePanel());
+        inventory.setItem(27, super.bluePanel());
+        for (int i = 28; i < 35; i++) {
+            if (inventory.getItem(i) == null) {
+                inventory.setItem(i, super.redPanel());
             }
         }
-        for ( int i = 35; i < 45; i++ ) {
-            if ( inventory.getItem( i ) == null ) {
-                inventory.setItem( i , super.bluePanel( ) );
+        for (int i = 35; i < 45; i++) {
+            if (inventory.getItem(i) == null) {
+                inventory.setItem(i, super.bluePanel());
             }
         }
-        inventory.setItem( 21 , super.redPanel( ) );
-        inventory.setItem( 22 , super.close( ) );
-        inventory.setItem( 23 , super.redPanel( ) );
-        
-        if ( status.equalsIgnoreCase( "open" ) ) {
-            String name = utils.getString( "edit.open.name" , "item" , null ).replace( "%punishment%" , "Warn" ).replace( "%id%" , String.valueOf( Id ) );
-            ItemStack item = utils.getDecorationHead( "check" );
-            ItemMeta meta = item.getItemMeta( );
-            meta.setDisplayName( utils.chat( name ) );
-            ArrayList < String > lore = new ArrayList <>( );
-            for ( String key2 : utils.getStringList( "edit.open.lore" , "item" ) ) {
-                key2 = key2.replace( "%punishment%" , "Warn" );
-                lore.add( utils.chat( key2 ) );
+        inventory.setItem(21, super.redPanel());
+        inventory.setItem(22, super.close());
+        inventory.setItem(23, super.redPanel());
+
+        if (status.equalsIgnoreCase("open")) {
+            String name = utils.getString("edit.open.name", "item", null).replace("%punishment%", "Warn").replace("%id%", String.valueOf(Id));
+            ItemStack item = utils.getDecorationHead("check");
+            ItemMeta meta = item.getItemMeta();
+            meta.setDisplayName(utils.chat(name));
+            ArrayList<String> lore = new ArrayList<>();
+            for (String key2 : utils.getStringList("edit.open.lore", "item")) {
+                key2 = key2.replace("%punishment%", "Warn");
+                lore.add(utils.chat(key2));
             }
-            meta.getPersistentDataContainer( ).set( new NamespacedKey( main.plugin , "open" ) , PersistentDataType.STRING , "open" );
-            item.setItemMeta( meta );
-            inventory.setItem( 20 , item );
+            meta.getPersistentDataContainer().set(new NamespacedKey(StaffCorePlugin.plugin, "open"), PersistentDataType.STRING, "open");
+            item.setItemMeta(meta);
+            inventory.setItem(20, item);
         } else {
-            String name = utils.getString( "edit.closed.name" , "item" , null ).replace( "%punishment%" , "Warn" ).replace( "%id%" , String.valueOf( Id ) );
-            ItemStack item = utils.getDecorationHead( "delete" );
-            ItemMeta meta = item.getItemMeta( );
-            meta.setDisplayName( utils.chat( name ) );
-            ArrayList < String > lore = new ArrayList <>( );
-            for ( String key2 : utils.getStringList( "edit.closed.lore" , "item" ) ) {
-                key2 = key2.replace( "%punishment%" , "Warn" );
-                lore.add( utils.chat( key2 ) );
+            String name = utils.getString("edit.closed.name", "item", null).replace("%punishment%", "Warn").replace("%id%", String.valueOf(Id));
+            ItemStack item = utils.getDecorationHead("delete");
+            ItemMeta meta = item.getItemMeta();
+            meta.setDisplayName(utils.chat(name));
+            ArrayList<String> lore = new ArrayList<>();
+            for (String key2 : utils.getStringList("edit.closed.lore", "item")) {
+                key2 = key2.replace("%punishment%", "Warn");
+                lore.add(utils.chat(key2));
             }
-            meta.getPersistentDataContainer( ).set( new NamespacedKey( main.plugin , "closed" ) , PersistentDataType.STRING , "closed" );
-            item.setItemMeta( meta );
-            inventory.setItem( 20 , item );
+            meta.getPersistentDataContainer().set(new NamespacedKey(StaffCorePlugin.plugin, "closed"), PersistentDataType.STRING, "closed");
+            item.setItemMeta(meta);
+            inventory.setItem(20, item);
         }
-        
-        
-        String name = utils.getString( "edit.delete.name" , "item" , null ).replace( "%punishment%" , "Warn" ).replace( "%id%" , String.valueOf( Id ) );
-        ItemStack item = utils.getDecorationHead( "delete" );
-        ItemMeta meta = item.getItemMeta( );
-        meta.setDisplayName( utils.chat( name ) );
-        ArrayList < String > lore = new ArrayList <>( );
-        for ( String key2 : utils.getStringList( "edit.delete.lore" , "item" ) ) {
-            key2 = key2.replace( "%punishment%" , "Warn" );
-            lore.add( utils.chat( key2 ) );
+
+
+        String name = utils.getString("edit.delete.name", "item", null).replace("%punishment%", "Warn").replace("%id%", String.valueOf(Id));
+        ItemStack item = utils.getDecorationHead("delete");
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(utils.chat(name));
+        ArrayList<String> lore = new ArrayList<>();
+        for (String key2 : utils.getStringList("edit.delete.lore", "item")) {
+            key2 = key2.replace("%punishment%", "Warn");
+            lore.add(utils.chat(key2));
         }
-        meta.setLore( lore );
-        meta.getPersistentDataContainer( ).set( new NamespacedKey( main.plugin , "delete" ) , PersistentDataType.STRING , "delete" );
-        item.setItemMeta( meta );
-        inventory.setItem( 24 , item );
+        meta.setLore(lore);
+        meta.getPersistentDataContainer().set(new NamespacedKey(StaffCorePlugin.plugin, "delete"), PersistentDataType.STRING, "delete");
+        item.setItemMeta(meta);
+        inventory.setItem(24, item);
     }
 }
