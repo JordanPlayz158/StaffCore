@@ -1,6 +1,6 @@
 name: StaffCore
 version: 4.4.6
-main: cl.bebt.staffcore.main
+main: cl.bebt.staffcore.StaffCorePlugin
 author: BarraR3port
 prefix: StaffCore
 loadbefore: [ Essentials, PermissionsEx ]
