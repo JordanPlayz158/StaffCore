@@ -1,7 +1,6 @@
 package cl.bebt.staffcore.utils;
 
 import cl.bebt.staffcore.StaffCorePlugin;
-import cl.bebt.staffcore.sql.DataExporter;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.CommandSender;
@@ -14,7 +13,6 @@ public class ToggleChat {
     public static void Mute(Boolean bol) {
         if (bol) {
             StaffCorePlugin.plugin.chatMuted = true;
-            DataExporter.updateServerStats("mute");
         }
         if (!bol) {
             StaffCorePlugin.plugin.chatMuted = false;
@@ -72,7 +70,6 @@ public class ToggleChat {
                     }
                 }
             }
-            DataExporter.updateServerStats("mute");
         } else {
             unMute(p, muted);
         }
@@ -83,19 +80,15 @@ public class ToggleChat {
         if (time.equals("s")) {
             CountdownManager.setMuteCountdown(p, amount);
             sendMessage((Player) sender, p, amount, "s");
-            DataExporter.updateServerStats("mute");
         } else if (time.equals("m")) {
             CountdownManager.setMuteCountdown(p, amount * 60);
             sendMessage((Player) sender, p, amount, "m");
-            DataExporter.updateServerStats("mute");
         } else if (time.equals("h")) {
             CountdownManager.setMuteCountdown(p, amount * 3600);
             sendMessage((Player) sender, p, amount, "h");
-            DataExporter.updateServerStats("mute");
         } else if (time.equals("d")) {
             CountdownManager.setMuteCountdown(p, amount * 86400);
             sendMessage((Player) sender, p, amount, "d");
-            DataExporter.updateServerStats("mute");
         } else {
             Utils.tell(sender, Utils.getString("wrong_usage", "lg", "staff").replace("%command%", "mute " + p.getName() + " &d10<s/m/h/d>"));
         }

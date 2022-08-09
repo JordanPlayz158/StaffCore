@@ -1,7 +1,6 @@
 package cl.bebt.staffcore.msgchannel;
 
 import cl.bebt.staffcore.StaffCorePlugin;
-import cl.bebt.staffcore.sql.DataExporter;
 import cl.bebt.staffcore.utils.Utils;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
@@ -37,7 +36,6 @@ public class SendMsg {
         dc.add("**Report Id:** " + id);
         dc.add("**Server:** " + server);
         Utils.sendDiscordAlertMsg("⚠ Report Alert ⚠", dc);
-        DataExporter.updateServerStats("report");
     }
 
     public static void sendReportChangeAlert(int id, String changer, String sender, String target, String reason, String date, String status, String server) {
@@ -95,7 +93,6 @@ public class SendMsg {
         dc.add("**Exp Date:** " + ExpDate);
         dc.add("**Server:** " + server);
         Utils.sendDiscordAlertMsg("⚠ Ban Alert ⚠", dc);
-        DataExporter.updateServerStats("ban");
     }
 
     public static void sendBanChangeAlert(int id, String changer, String sender, String target, String reason, String ExpDate, String date, String status, String server) {
@@ -152,7 +149,6 @@ public class SendMsg {
         dc.add("**Exp Date:** " + ExpDate);
         dc.add("**Server:** " + server);
         Utils.sendDiscordAlertMsg("⚠ Warn Alert ⚠", dc);
-        DataExporter.updateServerStats("warn");
     }
 
     public static void sendWarnChangeAlert(int id, String changer, String sender, String target, String reason, String ExpDate, String date, String status, String server) {
@@ -203,7 +199,6 @@ public class SendMsg {
         dc.add("**Set to:** " + bool);
         dc.add("**Server:** " + server);
         Utils.sendDiscordAlertMsg("⚠ Freezeuery Alert ⚠", dc);
-        DataExporter.updateServerStats("frozen");
     }
 
     public static void sendWipeAlert(String sender, String target, int bans, int reports, int warns, String server) {
@@ -229,7 +224,6 @@ public class SendMsg {
         dc.add("**WarnsQuery Wiped:** " + warns);
         dc.add("**Server:** " + server);
         Utils.sendDiscordAlertMsg("⚠ Wipe Alert ⚠", dc);
-        DataExporter.updateServerStats("wipe");
     }
 
     public static void sendStaffChatMSG(String sender, String msg, String server) {

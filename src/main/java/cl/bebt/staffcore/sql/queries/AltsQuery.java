@@ -1,7 +1,6 @@
 package cl.bebt.staffcore.sql.queries;
 
 import cl.bebt.staffcore.StaffCorePlugin;
-import cl.bebt.staffcore.sql.DataExporter;
 import cl.bebt.staffcore.sql.Mysql;
 import cl.bebt.staffcore.sql.SQLGetter;
 import cl.bebt.staffcore.utils.Http;
@@ -46,7 +45,6 @@ public class AltsQuery {
                 statement.setString(4, Skin);
                 statement.executeUpdate();
                 StaffCorePlugin.playerSkins.put(player, Skin);
-                DataExporter.updateServerStats("player");
                 break;
             } catch (SQLException throwable) {
                 StaffCorePlugin.plugin.getServer().getConsoleSender().sendMessage(Utils.chat("&c[&5Staff Core&c] There has been an error with the mysql"));

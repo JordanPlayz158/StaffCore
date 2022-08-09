@@ -19,7 +19,6 @@ import cl.bebt.staffcore.configs.languages.FR;
 import cl.bebt.staffcore.listeners.*;
 import cl.bebt.staffcore.menu.PlayerMenuUtility;
 import cl.bebt.staffcore.menu.listeners.MenuListener;
-import cl.bebt.staffcore.sql.DataExporter;
 import cl.bebt.staffcore.sql.Mysql;
 import cl.bebt.staffcore.sql.queries.StaffQuery;
 import cl.bebt.staffcore.sql.SQLGetter;
@@ -74,8 +73,6 @@ public final class StaffCorePlugin extends JavaPlugin {
     public ES_CL es_cl;
 
     public FR fr;
-
-    public StatsConfig stats;
 
     public ItemsConfig items;
 
@@ -244,7 +241,6 @@ public final class StaffCorePlugin extends JavaPlugin {
             new ToggleStaffChat(plugin);
             new Staff(plugin);
         }
-        new DataExporter(this);
     }
 
     public void onDisable() {
@@ -285,9 +281,6 @@ public final class StaffCorePlugin extends JavaPlugin {
         this.fr = new FR(plugin);
         this.fr.saveDefaultConfig();
         this.fr.reloadConfig();
-        this.stats = new StatsConfig(plugin);
-        this.stats.saveDefaultConfig();
-        this.stats.reloadConfig();
         this.items = new ItemsConfig(plugin);
         this.items.saveDefaultConfig();
         this.items.reloadConfig();

@@ -80,10 +80,9 @@ public class Http {
                 }
                 rd.close();
                 JSONObject array = new JSONObject(resultado.toString());
-                if (array.get("type").toString().equalsIgnoreCase("success")) {
-                    plugin.stats.getConfig().set("server_uuid", uuid);
-                    plugin.stats.saveConfig();
-                }
+
+
+                array.get("type");
             } catch (IOException e) {
                 e.printStackTrace();
             }
