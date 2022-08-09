@@ -1,7 +1,7 @@
 package cl.bebt.staffcore.sql;
 
 
-import cl.bebt.staffcore.utils.utils;
+import cl.bebt.staffcore.utils.Utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -29,11 +29,11 @@ public class Mysql {
     }
 
     public static void connect() throws SQLException {
-        String host = utils.getString("mysql.host");
-        String port = utils.getString("mysql.port");
-        String database = utils.getString("mysql.database");
-        String username = utils.getString("mysql.username");
-        String password = utils.getString("mysql.password");
+        String host = Utils.getString("mysql.host");
+        String port = Utils.getString("mysql.port");
+        String database = Utils.getString("mysql.database");
+        String username = Utils.getString("mysql.username");
+        String password = Utils.getString("mysql.password");
         if (!isConnected()) {
             connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database + "?autoReconnect=TRUE&useSSL=FALSE", username, password);
         }

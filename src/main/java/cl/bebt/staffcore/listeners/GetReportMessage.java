@@ -1,8 +1,8 @@
 package cl.bebt.staffcore.listeners;
 
 import cl.bebt.staffcore.StaffCorePlugin;
-import cl.bebt.staffcore.menu.menu.Bangui.ChoseBanType;
-import cl.bebt.staffcore.menu.menu.Warn.WarnTimeChose;
+import cl.bebt.staffcore.menu.menu.ban.gui.ChoseBanType;
+import cl.bebt.staffcore.menu.menu.warn.WarnTimeChose;
 import cl.bebt.staffcore.utils.ReportPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;

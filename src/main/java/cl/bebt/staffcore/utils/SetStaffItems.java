@@ -1,7 +1,7 @@
 package cl.bebt.staffcore.utils;
 
 import cl.bebt.staffcore.StaffCorePlugin;
-import cl.bebt.staffcore.sql.Queries.StaffQuery;
+import cl.bebt.staffcore.sql.queries.StaffQuery;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -42,7 +42,7 @@ public class SetStaffItems {
         p.getInventory().setItem(8, staffOff());
         p.setInvulnerable(true);
         PlayerData.set(new NamespacedKey(plugin, "staff"), PersistentDataType.STRING, "staff");
-        if (utils.mysqlEnabled()) {
+        if (Utils.mysqlEnabled()) {
             StaffQuery.enable(p.getName());
         }
         p.setAllowFlight(true);
@@ -76,7 +76,7 @@ public class SetStaffItems {
         p.setInvulnerable(false);
         SetVanish.setVanish(p, false);
         PlayerData.remove(new NamespacedKey(plugin, "staff"));
-        if (utils.mysqlEnabled()) {
+        if (Utils.mysqlEnabled()) {
             StaffQuery.disable(p.getName());
         }
     }
@@ -85,9 +85,9 @@ public class SetStaffItems {
         ArrayList<String> lore = new ArrayList<>();
         ItemStack vanishOn = new ItemStack(Material.LIME_DYE);
         ItemMeta vanishOn_meta = vanishOn.getItemMeta();
-        lore.add(utils.chat("&dStaff utils"));
+        lore.add(Utils.chat("&dStaff utils"));
         vanishOn_meta.setLore(lore);
-        vanishOn_meta.setDisplayName(utils.chat("&7Vanish &aOn"));
+        vanishOn_meta.setDisplayName(Utils.chat("&7Vanish &aOn"));
         vanishOn_meta.getPersistentDataContainer().set(new NamespacedKey(plugin, "vanishOn"), PersistentDataType.STRING, "vanishOn");
         vanishOn.setItemMeta(vanishOn_meta);
         return vanishOn;
@@ -97,9 +97,9 @@ public class SetStaffItems {
         ArrayList<String> lore = new ArrayList<>();
         ItemStack vanishOff = new ItemStack(Material.GRAY_DYE);
         ItemMeta vanishOff_meta = vanishOff.getItemMeta();
-        lore.add(utils.chat("&dStaff utils"));
+        lore.add(Utils.chat("&dStaff utils"));
         vanishOff_meta.setLore(lore);
-        vanishOff_meta.setDisplayName(utils.chat("&7Vanish &cOff"));
+        vanishOff_meta.setDisplayName(Utils.chat("&7Vanish &cOff"));
         vanishOff_meta.getPersistentDataContainer().set(new NamespacedKey(plugin, "vanishOff"), PersistentDataType.STRING, "vanishOff");
         vanishOff.setItemMeta(vanishOff_meta);
         return vanishOff;
@@ -109,9 +109,9 @@ public class SetStaffItems {
         ArrayList<String> lore = new ArrayList<>();
         ItemStack staffOff = new ItemStack(Material.RED_DYE);
         ItemMeta staffOff_meta = staffOff.getItemMeta();
-        lore.add(utils.chat("&dStaff utils"));
+        lore.add(Utils.chat("&dStaff utils"));
         staffOff_meta.setLore(lore);
-        staffOff_meta.setDisplayName(utils.chat("&7Staff &cOFF"));
+        staffOff_meta.setDisplayName(Utils.chat("&7Staff &cOFF"));
         staffOff_meta.getPersistentDataContainer().set(new NamespacedKey(plugin, "staffOff"), PersistentDataType.STRING, "staffOff");
         staffOff.setItemMeta(staffOff_meta);
         return staffOff;
@@ -121,10 +121,10 @@ public class SetStaffItems {
         ArrayList<String> lore = new ArrayList<>();
         ItemStack chatManager = new ItemStack(Material.TOTEM_OF_UNDYING);
         ItemMeta chatManager_meta = chatManager.getItemMeta();
-        lore.add(utils.chat("&dStaff utils"));
+        lore.add(Utils.chat("&dStaff utils"));
         chatManager_meta.setLore(lore);
         chatManager_meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        chatManager_meta.setDisplayName(utils.chat("&cServer Manager"));
+        chatManager_meta.setDisplayName(Utils.chat("&cServer Manager"));
         chatManager_meta.getPersistentDataContainer().set(new NamespacedKey(plugin, "servermanager"), PersistentDataType.STRING, "servermanager");
         chatManager.setItemMeta(chatManager_meta);
         return chatManager;
@@ -134,9 +134,9 @@ public class SetStaffItems {
         ArrayList<String> lore = new ArrayList<>();
         ItemStack freeze = new ItemStack(Material.BLUE_ICE);
         ItemMeta freeze_meta = freeze.getItemMeta();
-        lore.add(utils.chat("&dStaff utils"));
+        lore.add(Utils.chat("&dStaff utils"));
         freeze_meta.setLore(lore);
-        freeze_meta.setDisplayName(utils.chat("&bFreeze"));
+        freeze_meta.setDisplayName(Utils.chat("&bFreeze"));
         freeze_meta.getPersistentDataContainer().set(new NamespacedKey(plugin, "freeze"), PersistentDataType.STRING, "freeze");
         freeze.setItemMeta(freeze_meta);
         return freeze;
@@ -146,9 +146,9 @@ public class SetStaffItems {
         ArrayList<String> lore = new ArrayList<>();
         ItemStack randomTp = new ItemStack(Material.CLOCK);
         ItemMeta randomTp_meta = randomTp.getItemMeta();
-        lore.add(utils.chat("&dStaff utils"));
+        lore.add(Utils.chat("&dStaff utils"));
         randomTp_meta.setLore(lore);
-        randomTp_meta.setDisplayName(utils.chat("&5Random Tp"));
+        randomTp_meta.setDisplayName(Utils.chat("&5Random Tp"));
         randomTp_meta.getPersistentDataContainer().set(new NamespacedKey(plugin, "randomTp"), PersistentDataType.STRING, "randomTp");
         randomTp.setItemMeta(randomTp_meta);
         return randomTp;
@@ -158,9 +158,9 @@ public class SetStaffItems {
         ArrayList<String> lore = new ArrayList<>();
         ItemStack report = new ItemStack(Material.BLAZE_ROD);
         ItemMeta report_meta = report.getItemMeta();
-        lore.add(utils.chat("&dStaff utils"));
+        lore.add(Utils.chat("&dStaff utils"));
         report_meta.setLore(lore);
-        report_meta.setDisplayName(utils.chat("&cReport Manager"));
+        report_meta.setDisplayName(Utils.chat("&cReport Manager"));
         report_meta.getPersistentDataContainer().set(new NamespacedKey(plugin, "report"), PersistentDataType.STRING, "report");
         report.setItemMeta(report_meta);
         return report;
@@ -170,9 +170,9 @@ public class SetStaffItems {
         ArrayList<String> lore = new ArrayList<>();
         ItemStack InvSee = new ItemStack(Material.CHEST);
         ItemMeta InvSee_meta = InvSee.getItemMeta();
-        lore.add(utils.chat("&dStaff utils"));
+        lore.add(Utils.chat("&dStaff utils"));
         InvSee_meta.setLore(lore);
-        InvSee_meta.setDisplayName(utils.chat("&bInvsee"));
+        InvSee_meta.setDisplayName(Utils.chat("&bInvsee"));
         InvSee_meta.getPersistentDataContainer().set(new NamespacedKey(plugin, "invsee"), PersistentDataType.STRING, "invsee");
         InvSee.setItemMeta(InvSee_meta);
         return InvSee;

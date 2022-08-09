@@ -1,6 +1,6 @@
 package cl.bebt.staffcore.listeners;
 
-import cl.bebt.staffcore.API.StaffCoreAPI;
+import cl.bebt.staffcore.api.StaffCoreAPI;
 import cl.bebt.staffcore.StaffCorePlugin;
 import cl.bebt.staffcore.menu.InventoryMenu;
 import cl.bebt.staffcore.utils.Items;

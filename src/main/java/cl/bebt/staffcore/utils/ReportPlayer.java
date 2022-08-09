@@ -1,9 +1,9 @@
 package cl.bebt.staffcore.utils;
 
-import cl.bebt.staffcore.API.StaffCoreAPI;
-import cl.bebt.staffcore.MSGChanel.SendMsg;
+import cl.bebt.staffcore.api.StaffCoreAPI;
+import cl.bebt.staffcore.msgchannel.SendMsg;
 import cl.bebt.staffcore.StaffCorePlugin;
-import cl.bebt.staffcore.sql.Queries.ReportsQuery;
+import cl.bebt.staffcore.sql.queries.ReportsQuery;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.json.JSONObject;
@@ -22,7 +22,7 @@ public class ReportPlayer {
         Integer id = (plugin.reports.getConfig().getInt("count") + 1);
         Date now = new Date();
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        if (utils.mysqlEnabled()) {
+        if (Utils.mysqlEnabled()) {
             ReportsQuery.createReport(reported, p.getName(), reason, format.format(now), "open");
         } else {
             if (plugin.reports.getConfig().contains("count")) {
@@ -37,19 +37,19 @@ public class ReportPlayer {
             }
         }
         for (Player people : Bukkit.getOnlinePlayers()) {
-            if (people.hasPermission("staffcore.staff") || !people.equals(p) || utils.getBoolean("alerts.report")) {
-                utils.PlaySound(people, "reports_alerts");
-                for (String key : utils.getStringList("report.report_alerts", "alerts")) {
+            if (people.hasPermission("staffcore.staff") || !people.equals(p) || Utils.getBoolean("alerts.report")) {
+                Utils.PlaySound(people, "reports_alerts");
+                for (String key : Utils.getStringList("report.report_alerts", "alerts")) {
                     key = key.replace("%reporter%", p.getName());
                     key = key.replace("%reported%", reported);
                     key = key.replace("%reason%", reason);
                     key = key.replace("%id%", String.valueOf(id));
                     key = key.replace("%date%", format.format(now));
-                    utils.tell(people, key);
+                    Utils.tell(people, key);
                 }
             }
         }
-        SendMsg.sendReportAlert(id, p.getName(), reported, reason, format.format(now), utils.getServer());
+        SendMsg.sendReportAlert(id, p.getName(), reported, reason, format.format(now), Utils.getServer());
     }
 
     public static void CloseReport(Player p, Integer id) {
@@ -58,7 +58,7 @@ public class ReportPlayer {
         String reason = null;
         String date = null;
         String status = "closed";
-        if (utils.mysqlEnabled()) {
+        if (Utils.mysqlEnabled()) {
             JSONObject json = ReportsQuery.getReportInfo(id);
             if (!json.getBoolean("error")) {
                 reporter = json.getString("Reporter");
@@ -78,11 +78,11 @@ public class ReportPlayer {
             plugin.reports.getConfig().set("count", StaffCoreAPI.getCurrentReports());
             plugin.reports.saveConfig();
         }
-        SendMsg.sendReportChangeAlert(id, p.getName(), reporter, reported, reason, date, status, utils.getServer());
+        SendMsg.sendReportChangeAlert(id, p.getName(), reporter, reported, reason, date, status, Utils.getServer());
         for (Player people : Bukkit.getOnlinePlayers()) {
             if (people.hasPermission("staffcore.staff")) {
-                utils.PlaySound(p, "close_report");
-                for (String key : utils.getStringList("report.report_change", "alerts")) {
+                Utils.PlaySound(p, "close_report");
+                for (String key : Utils.getStringList("report.report_change", "alerts")) {
                     key = key.replace("%changed_by%", p.getName());
                     key = key.replace("%reporter%", reporter);
                     key = key.replace("%reported%", reported);
@@ -90,7 +90,7 @@ public class ReportPlayer {
                     key = key.replace("%reason%", reason);
                     key = key.replace("%create_date%", date);
                     key = key.replace("%report_status%", status);
-                    utils.tell(people, key);
+                    Utils.tell(people, key);
                 }
             }
         }
@@ -102,7 +102,7 @@ public class ReportPlayer {
         String reason = null;
         String date = null;
         String status = "open";
-        if (utils.mysqlEnabled()) {
+        if (Utils.mysqlEnabled()) {
             JSONObject json = ReportsQuery.getReportInfo(id);
             if (!json.getBoolean("error")) {
                 reporter = json.getString("Reporter");
@@ -122,11 +122,11 @@ public class ReportPlayer {
             plugin.reports.getConfig().set("count", StaffCoreAPI.getCurrentReports());
             plugin.reports.saveConfig();
         }
-        SendMsg.sendReportChangeAlert(id, p.getName(), reporter, reported, reason, date, status, utils.getServer());
+        SendMsg.sendReportChangeAlert(id, p.getName(), reporter, reported, reason, date, status, Utils.getServer());
         for (Player people : Bukkit.getOnlinePlayers()) {
             if (people.hasPermission("staffcore.staff")) {
-                utils.PlaySound(p, "open_report");
-                for (String key : utils.getStringList("report.report_change", "alerts")) {
+                Utils.PlaySound(p, "open_report");
+                for (String key : Utils.getStringList("report.report_change", "alerts")) {
                     key = key.replace("%changed_by%", p.getName());
                     key = key.replace("%reporter%", reporter);
                     key = key.replace("%reported%", reported);
@@ -134,7 +134,7 @@ public class ReportPlayer {
                     key = key.replace("%create_date%", date);
                     key = key.replace("%id%", String.valueOf(id));
                     key = key.replace("%report_status%", status);
-                    utils.tell(people, key);
+                    Utils.tell(people, key);
                 }
             }
         }
@@ -146,7 +146,7 @@ public class ReportPlayer {
         String reason = null;
         String date = null;
         String status = "deleted";
-        if (utils.mysqlEnabled()) {
+        if (Utils.mysqlEnabled()) {
             JSONObject json = ReportsQuery.getReportInfo(id);
             if (!json.getBoolean("error")) {
                 reporter = json.getString("Reporter");
@@ -167,11 +167,11 @@ public class ReportPlayer {
             plugin.reports.getConfig().set("current", StaffCoreAPI.getCurrentReports());
             plugin.reports.saveConfig();
         }
-        SendMsg.sendReportChangeAlert(id, p.getName(), reporter, reported, reason, date, status, utils.getServer());
+        SendMsg.sendReportChangeAlert(id, p.getName(), reporter, reported, reason, date, status, Utils.getServer());
         for (Player people : Bukkit.getOnlinePlayers()) {
             if (people.hasPermission("staffcore.staff")) {
-                utils.PlaySound(p, "delete_report");
-                for (String key : utils.getStringList("report.report_change", "alerts")) {
+                Utils.PlaySound(p, "delete_report");
+                for (String key : Utils.getStringList("report.report_change", "alerts")) {
                     key = key.replace("%changed_by%", p.getName());
                     key = key.replace("%reporter%", reporter);
                     key = key.replace("%reported%", reported);
@@ -179,7 +179,7 @@ public class ReportPlayer {
                     key = key.replace("%create_date%", date);
                     key = key.replace("%id%", String.valueOf(id));
                     key = key.replace("%report_status%", "DELETED");
-                    utils.tell(people, key);
+                    Utils.tell(people, key);
                 }
             }
         }

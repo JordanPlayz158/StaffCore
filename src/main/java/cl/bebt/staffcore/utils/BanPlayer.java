@@ -1,9 +1,9 @@
 package cl.bebt.staffcore.utils;
 
-import cl.bebt.staffcore.MSGChanel.SendMsg;
+import cl.bebt.staffcore.msgchannel.SendMsg;
 import cl.bebt.staffcore.StaffCorePlugin;
-import cl.bebt.staffcore.sql.Queries.AltsQuery;
-import cl.bebt.staffcore.sql.Queries.BansQuery;
+import cl.bebt.staffcore.sql.queries.AltsQuery;
+import cl.bebt.staffcore.sql.queries.BansQuery;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.CommandSender;
@@ -32,7 +32,7 @@ public class BanPlayer {
         String baner = null;
         String banned = null;
         String status = "unbanned";
-        if (utils.mysqlEnabled()) {
+        if (Utils.mysqlEnabled()) {
             JSONObject json = BansQuery.getBanInfo(Id);
             if (!json.getBoolean("error")) {
                 reason = json.getString("Reason");
@@ -53,11 +53,11 @@ public class BanPlayer {
             StaffCorePlugin.plugin.bans.getConfig().set("current", currentBans());
             StaffCorePlugin.plugin.bans.saveConfig();
         }
-        SendMsg.sendBanChangeAlert(Id, p.getName(), baner, banned, reason, exp, created, status, utils.getString("bungeecord.server"));
+        SendMsg.sendBanChangeAlert(Id, p.getName(), baner, banned, reason, exp, created, status, Utils.getString("bungeecord.server"));
         for (Player people : Bukkit.getOnlinePlayers()) {
-            if (people.hasPermission("staffcore.staff") || utils.getBoolean("alerts.ban")) {
-                utils.PlaySound(people, "un_ban");
-                for (String key : utils.getStringList("ban.change", "alerts")) {
+            if (people.hasPermission("staffcore.staff") || Utils.getBoolean("alerts.ban")) {
+                Utils.PlaySound(people, "un_ban");
+                for (String key : Utils.getStringList("ban.change", "alerts")) {
                     key = key.replace("%changed_by%", player);
                     key = key.replace("%baner%", baner);
                     key = key.replace("%banned%", banned);
@@ -66,7 +66,7 @@ public class BanPlayer {
                     key = key.replace("%create_date%", created);
                     key = key.replace("%exp_date%", exp);
                     key = key.replace("%ban_status%", "UNBANED");
-                    utils.tell(people, key);
+                    Utils.tell(people, key);
                 }
             }
         }
@@ -74,7 +74,7 @@ public class BanPlayer {
 
     public static int currentBans() {
         try {
-            if (utils.mysqlEnabled()) {
+            if (Utils.mysqlEnabled()) {
                 return BansQuery.getCurrentBans();
             } else {
                 ConfigurationSection inventorySection = StaffCorePlugin.plugin.bans.getConfig().getConfigurationSection("bans");
@@ -86,7 +86,7 @@ public class BanPlayer {
 
     }
 
-    public static void BanPlayer(CommandSender p, String banned, String reason) {
+    public static void Ban(CommandSender p, String banned, String reason) {
         createBan((Player) p, banned, reason, 283605, "d", true);
     }
 
@@ -96,7 +96,7 @@ public class BanPlayer {
                 time.equalsIgnoreCase("h") || time.equalsIgnoreCase("d")) {
             createBan((Player) sender, banned, reason, amount, time, false);
         } else {
-            utils.tell(sender, utils.getString("wrong_usage", "lg", "staff").replace("%command%", "ban " + banned));
+            Utils.tell(sender, Utils.getString("wrong_usage", "lg", "staff").replace("%command%", "ban " + banned));
         }
     }
 
@@ -113,8 +113,8 @@ public class BanPlayer {
         } else {
             try {
                 //TODO CREATE A SYSTEM TO OPTIMIZE THIS:
-                if (utils.mysqlEnabled()) {
-                    List<String> ips = utils.makeList(AltsQuery.getAlts(banned));
+                if (Utils.mysqlEnabled()) {
+                    List<String> ips = Utils.makeList(AltsQuery.getAlts(banned));
                     IP = ips.get(0);
                 } else {
                     List<? extends String> ips = StaffCorePlugin.plugin.alts.getConfig().getStringList("alts." + banned);
@@ -123,7 +123,7 @@ public class BanPlayer {
                 IP = IP.replace("[", "");
                 IP = IP.replace("]", "");
             } catch (NullPointerException | IndexOutOfBoundsException ignored) {
-                utils.tell(p, utils.getString("never_seen", "lg", "staff").replace("%player%", banned));
+                Utils.tell(p, Utils.getString("never_seen", "lg", "staff").replace("%player%", banned));
             }
         }
         if (IP != null) {
@@ -143,7 +143,7 @@ public class BanPlayer {
             }
             Date ExpDate = cal.getTime();
             SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-            if (utils.mysqlEnabled()) {
+            if (Utils.mysqlEnabled()) {
                 if (p.getPersistentDataContainer().has(new NamespacedKey(StaffCorePlugin.plugin, "ban-ip"), PersistentDataType.STRING)) {
                     BansQuery.createBan(banned, p.getName(), reason, format.format(now), format.format(ExpDate), IP, "true", "open");
                 } else {
@@ -168,11 +168,11 @@ public class BanPlayer {
                 StaffCorePlugin.plugin.bans.saveConfig();
             }
             boolean Ip = p.getPersistentDataContainer().has(new NamespacedKey(StaffCorePlugin.plugin, "ban-ip"), PersistentDataType.STRING);
-            SendMsg.sendBanAlert(p.getName(), banned, reason, permanent, Ip, amount, time, format.format(ExpDate), format.format(now), utils.getString("bungeecord.server"));
+            SendMsg.sendBanAlert(p.getName(), banned, reason, permanent, Ip, amount, time, format.format(ExpDate), format.format(now), Utils.getString("bungeecord.server"));
             for (Player people : Bukkit.getOnlinePlayers()) {
-                if (utils.getBoolean("alerts.ban") || people.hasPermission("staffcore.staff")) {
-                    utils.PlaySound(people, "ban_alerts");
-                    for (String key : utils.getStringList("ban.alerts", "alerts")) {
+                if (Utils.getBoolean("alerts.ban") || people.hasPermission("staffcore.staff")) {
+                    Utils.PlaySound(people, "ban_alerts");
+                    for (String key : Utils.getStringList("ban.alerts", "alerts")) {
                         key = key.replace("%baner%", p.getName());
                         key = key.replace("%banned%", banned);
                         key = key.replace("%reason%", reason);
@@ -190,13 +190,13 @@ public class BanPlayer {
                         }
                         key = key.replace("%exp_date%", format.format(ExpDate));
                         key = key.replace("%date%", format.format(now));
-                        utils.tell(people, key);
+                        Utils.tell(people, key);
                     }
                 }
             }
             if (Bukkit.getPlayer(banned) != null) {
                 String ban_msg = "\n";
-                for (String msg : utils.getStringList("ban.msg", "alerts")) {
+                for (String msg : Utils.getStringList("ban.msg", "alerts")) {
                     msg = msg.replace("%baner%", p.getName());
                     msg = msg.replace("%banned%", banned);
                     msg = msg.replace("%reason%", reason);
@@ -216,12 +216,12 @@ public class BanPlayer {
                     msg = msg.replace("%date%", format.format(now));
                     ban_msg = ban_msg + msg + "\n";
                 }
-                utils.PlayParticle(Bukkit.getPlayer(banned), "ban");
+                Utils.PlayParticle(Bukkit.getPlayer(banned), "ban");
                 if (StaffCorePlugin.plugin.getConfig().getBoolean("wipe.wipe_on_ban")) {
                     wipePlayer.WipeOnBan(StaffCorePlugin.plugin, banned);
                 }
                 String finalBan_msg = ban_msg;
-                Bukkit.getPlayer(banned).kickPlayer(utils.chat(finalBan_msg));
+                Bukkit.getPlayer(banned).kickPlayer(Utils.chat(finalBan_msg));
             }
         }
     }

@@ -2,7 +2,7 @@ package cl.bebt.staffcore.utils;
 
 import cl.bebt.staffcore.StaffCorePlugin;
 import cl.bebt.staffcore.menu.PlayerMenuUtility;
-import cl.bebt.staffcore.menu.menu.Inventory.enderSee;
+import cl.bebt.staffcore.menu.menu.inventory.EnderSee;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -17,7 +17,7 @@ public class OpenEnderSee {
         if (!StaffCorePlugin.enderSee.containsValue(target)) {
             StaffCorePlugin.enderSee.put(p, target);
         }
-        new enderSee(new PlayerMenuUtility(p), target).open(p);
+        new EnderSee(new PlayerMenuUtility(p), target).open(p);
     }
 
     public static void updateInventory(Player p, Player target) {

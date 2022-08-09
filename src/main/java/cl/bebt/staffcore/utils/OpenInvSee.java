@@ -2,7 +2,7 @@ package cl.bebt.staffcore.utils;
 
 import cl.bebt.staffcore.StaffCorePlugin;
 import cl.bebt.staffcore.menu.PlayerMenuUtility;
-import cl.bebt.staffcore.menu.menu.Inventory.invSee;
+import cl.bebt.staffcore.menu.menu.inventory.InvSee;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -17,7 +17,7 @@ public class OpenInvSee {
         if (!StaffCorePlugin.invSee.containsValue(target)) {
             StaffCorePlugin.invSee.put(p, target);
         }
-        new invSee(new PlayerMenuUtility(p), target).open(p);
+        new InvSee(new PlayerMenuUtility(p), target).open(p);
     }
 
     public static void updateInventory(Player p, Player target) {

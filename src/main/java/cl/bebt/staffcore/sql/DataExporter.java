@@ -1,9 +1,9 @@
 package cl.bebt.staffcore.sql;
 
 import cl.bebt.staffcore.StaffCorePlugin;
-import cl.bebt.staffcore.sql.Queries.ServerQuery;
+import cl.bebt.staffcore.sql.queries.ServerQuery;
 import cl.bebt.staffcore.utils.Http;
-import cl.bebt.staffcore.utils.utils;
+import cl.bebt.staffcore.utils.Utils;
 import org.bukkit.Bukkit;
 import org.json.JSONObject;
 
@@ -54,7 +54,7 @@ public class DataExporter {
 
 
     private void createServerStats() {
-        if (utils.mysqlEnabled()) {
+        if (Utils.mysqlEnabled()) {
             String uuid = UUID.randomUUID().toString();
             HashMap<String, Integer> serverStatus = ServerQuery.getServerStatus();
             int CurrentBans = serverStatus.get("CurrentBans");
@@ -69,7 +69,7 @@ public class DataExporter {
 
             JSONObject jsonMessage = new JSONObject();
             jsonMessage.put("UUID", uuid);
-            jsonMessage.put("ServerName", utils.getWebServer());
+            jsonMessage.put("ServerName", Utils.getWebServer());
             jsonMessage.put("type", "createServerStats");
             jsonMessage.put("CurrentBans", CurrentBans);
             jsonMessage.put("CurrentReports", CurrentReports);

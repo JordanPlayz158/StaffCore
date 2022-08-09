@@ -35,18 +35,18 @@ public class Http {
                 rd.close();
                 JSONObject array = new JSONObject(resultado.toString());
                 if (array.get("type").toString().equalsIgnoreCase("error")) {
-                    utils.tell(p, utils.getString("web." + array.getString("msg"), "lg", null));
+                    Utils.tell(p, Utils.getString("web." + array.getString("msg"), "lg", null));
                 } else {
-                    utils.tell(p, utils.getString("web." + array.getString("msg"), "lg", "staff"));
+                    Utils.tell(p, Utils.getString("web." + array.getString("msg"), "lg", "staff"));
                     if (array.getString("msg").equalsIgnoreCase("error_already_registered_by_other")) {
-                        utils.tell(p, utils.getString("web.web", "lg", null));
+                        Utils.tell(p, Utils.getString("web.web", "lg", null));
                         return;
                     }
                     plugin.getConfig().set("server_name", server);
                 }
             } catch (IOException error) {
                 error.printStackTrace();
-                utils.tell(p, "&cCould not get a connection with the server");
+                Utils.tell(p, "&cCould not get a connection with the server");
             }
         });
     }
@@ -68,7 +68,7 @@ public class Http {
             version = array.getString(str);
         } catch (IOException error) {
             error.printStackTrace();
-            utils.tell(Bukkit.getConsoleSender(), "&cCould not get a connection with the server");
+            Utils.tell(Bukkit.getConsoleSender(), "&cCould not get a connection with the server");
         }
         return version;
     }
@@ -90,7 +90,7 @@ public class Http {
             isRegistered = array.getBoolean(bool);
         } catch (IOException error) {
             error.printStackTrace();
-            utils.tell(Bukkit.getConsoleSender(), "&cCould not get a connection with the server");
+            Utils.tell(Bukkit.getConsoleSender(), "&cCould not get a connection with the server");
         }
         return isRegistered;
     }
@@ -115,7 +115,7 @@ public class Http {
             }
         } catch (IOException error) {
             error.printStackTrace();
-            utils.tell(Bukkit.getConsoleSender(), "&cCould not get a connection with the server");
+            Utils.tell(Bukkit.getConsoleSender(), "&cCould not get a connection with the server");
         }
         return head;
     }

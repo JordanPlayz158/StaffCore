@@ -1,27 +1,27 @@
 package cl.bebt.staffcore;
 
-import cl.bebt.staffcore.API.StaffCoreAPI;
-import cl.bebt.staffcore.MSGChanel.PluginMessage;
-import cl.bebt.staffcore.commands.Staff.*;
-import cl.bebt.staffcore.commands.Staff.Mysql.FreezeMysql;
-import cl.bebt.staffcore.commands.Staff.Mysql.StaffMysql;
-import cl.bebt.staffcore.commands.Staff.Mysql.ToggleStaffChatMysql;
-import cl.bebt.staffcore.commands.Staff.Mysql.VanishMysql;
+import cl.bebt.staffcore.api.StaffCoreAPI;
+import cl.bebt.staffcore.msgchannel.PluginMessage;
+import cl.bebt.staffcore.commands.staff.*;
+import cl.bebt.staffcore.commands.staff.mysql.FreezeMysql;
+import cl.bebt.staffcore.commands.staff.mysql.StaffMysql;
+import cl.bebt.staffcore.commands.staff.mysql.ToggleStaffChatMysql;
+import cl.bebt.staffcore.commands.staff.mysql.VanishMysql;
 import cl.bebt.staffcore.commands.Suicide;
-import cl.bebt.staffcore.commands.Time.Day;
-import cl.bebt.staffcore.commands.Time.Night;
-import cl.bebt.staffcore.commands.Time.Weather;
-import cl.bebt.staffcore.commands.staffcore;
+import cl.bebt.staffcore.commands.time.Day;
+import cl.bebt.staffcore.commands.time.Night;
+import cl.bebt.staffcore.commands.time.Weather;
+import cl.bebt.staffcore.commands.StaffCore;
 import cl.bebt.staffcore.configs.*;
-import cl.bebt.staffcore.configs.Lenguajes.EN_NA;
-import cl.bebt.staffcore.configs.Lenguajes.ES_CL;
-import cl.bebt.staffcore.configs.Lenguajes.FR;
+import cl.bebt.staffcore.configs.languages.EN_NA;
+import cl.bebt.staffcore.configs.languages.ES_CL;
+import cl.bebt.staffcore.configs.languages.FR;
 import cl.bebt.staffcore.listeners.*;
 import cl.bebt.staffcore.menu.PlayerMenuUtility;
 import cl.bebt.staffcore.menu.listeners.MenuListener;
 import cl.bebt.staffcore.sql.DataExporter;
 import cl.bebt.staffcore.sql.Mysql;
-import cl.bebt.staffcore.sql.Queries.StaffQuery;
+import cl.bebt.staffcore.sql.queries.StaffQuery;
 import cl.bebt.staffcore.sql.SQLGetter;
 import cl.bebt.staffcore.utils.*;
 import org.bukkit.Bukkit;
@@ -101,21 +101,21 @@ public final class StaffCorePlugin extends JavaPlugin {
         plugin = this;
         new UpdateChecker(plugin).getLatestVersion(version -> {
             if (!getDescription().getVersion().equals(version)) {
-                c.sendMessage(utils.chat(getConfig().getString("server_prefix") + "&c     Hey, there is a new version out!"));
-                c.sendMessage(utils.chat(getConfig().getString("server_prefix") + "&b         Staff-Core " + version));
-                c.sendMessage(utils.chat(getConfig().getString("server_prefix") + "&1---------------------------------------------"));
-                if (utils.getBoolean("disable_outdated_plugin")) {
-                    c.sendMessage(utils.chat(getConfig().getString("server_prefix") + "&4&lDISABLING STAFF-CORE. USE THE LATEST VERSION "));
-                    c.sendMessage(utils.chat(getConfig().getString("server_prefix") + "&4&lYou can disable this option (disable_outdated_plugin) in the config file."));
-                    c.sendMessage(utils.chat(getConfig().getString("server_prefix") + "&4&lBut its recommend to use the latest version: &6" + version));
-                    c.sendMessage(utils.chat(getConfig().getString("server_prefix") + "&1---------------------------------------------"));
+                c.sendMessage(Utils.chat(getConfig().getString("server_prefix") + "&c     Hey, there is a new version out!"));
+                c.sendMessage(Utils.chat(getConfig().getString("server_prefix") + "&b         Staff-Core " + version));
+                c.sendMessage(Utils.chat(getConfig().getString("server_prefix") + "&1---------------------------------------------"));
+                if (Utils.getBoolean("disable_outdated_plugin")) {
+                    c.sendMessage(Utils.chat(getConfig().getString("server_prefix") + "&4&lDISABLING STAFF-CORE. USE THE LATEST VERSION "));
+                    c.sendMessage(Utils.chat(getConfig().getString("server_prefix") + "&4&lYou can disable this option (disable_outdated_plugin) in the config file."));
+                    c.sendMessage(Utils.chat(getConfig().getString("server_prefix") + "&4&lBut its recommend to use the latest version: &6" + version));
+                    c.sendMessage(Utils.chat(getConfig().getString("server_prefix") + "&1---------------------------------------------"));
                     plugin.getPluginLoader().disablePlugin(this);
                 } else {
                     try {
                         Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
                             for (Player p : Bukkit.getOnlinePlayers()) {
                                 if (p.hasPermission("staffcore.staff")) {
-                                    utils.tellHover(p, getConfig().getString("server_prefix") +
+                                    Utils.tellHover(p, getConfig().getString("server_prefix") +
                                                     "&cYou are using an StaffCore older version",
                                             "&aClick to download the version: " + latestVersion,
                                             "https://staffcore.glitch.me/download");
@@ -130,7 +130,7 @@ public final class StaffCorePlugin extends JavaPlugin {
         loadConfigManager();
         new StaffCoreAPI(plugin);
         new wipePlayer(plugin);
-        new utils(plugin);
+        new Utils(plugin);
         new SetStaffItems(plugin);
         new FreezePlayer();
         new SetVanish();
@@ -150,17 +150,17 @@ public final class StaffCorePlugin extends JavaPlugin {
         new Weather(plugin);
         new Suicide(plugin);
         new Metrics(plugin, 8871);
-        new wipe(plugin);
-        new unBan(plugin);
+        new Wipe(plugin);
+        new UnBan(plugin);
         new Ban(plugin);
         new Bans(plugin);
         new MutePlayer(plugin);
         new MuteChat(plugin);
-        new unMute(plugin);
-        new invSeeChest(plugin);
-        new invSeeEnder(plugin);
+        new UnMute(plugin);
+        new InvSeeChest(plugin);
+        new InvSeeEnder(plugin);
         new ReportList(plugin);
-        new staffcore(plugin);
+        new StaffCore(plugin);
         new StaffChat(plugin);
         new Report(plugin);
         new CheckAlts(plugin);
@@ -171,19 +171,19 @@ public final class StaffCorePlugin extends JavaPlugin {
         new HelpOp(plugin);
         new TrollMode(plugin);
         new Fly(plugin);
-        Bukkit.getPluginManager().registerEvents(new onPlayerJoin(plugin), plugin);
-        Bukkit.getPluginManager().registerEvents(new onChat(), plugin);
-        if (!utils.isOlderVersion()) {
-            c.sendMessage(utils.chat(getConfig().getString("server_prefix") + "&1---------------------------------------------"));
-            c.sendMessage(utils.chat(getConfig().getString("server_prefix") + "&a    Plugin &5" + getName() + "&a&l ACTIVATED"));
-            c.sendMessage(utils.chat(getConfig().getString("server_prefix") + "&1---------------------------------------------"));
-            c.sendMessage(utils.chat(getConfig().getString("server_prefix") + "&a         Staff-Core: &6" + getDescription().getVersion()));
-            c.sendMessage(utils.chat(getConfig().getString("server_prefix") + "&1---------------------------------------------"));
+        Bukkit.getPluginManager().registerEvents(new OnPlayerJoin(plugin), plugin);
+        Bukkit.getPluginManager().registerEvents(new OnChat(), plugin);
+        if (!Utils.isOlderVersion()) {
+            c.sendMessage(Utils.chat(getConfig().getString("server_prefix") + "&1---------------------------------------------"));
+            c.sendMessage(Utils.chat(getConfig().getString("server_prefix") + "&a    Plugin &5" + getName() + "&a&l ACTIVATED"));
+            c.sendMessage(Utils.chat(getConfig().getString("server_prefix") + "&1---------------------------------------------"));
+            c.sendMessage(Utils.chat(getConfig().getString("server_prefix") + "&a         Staff-Core: &6" + getDescription().getVersion()));
+            c.sendMessage(Utils.chat(getConfig().getString("server_prefix") + "&1---------------------------------------------"));
             Bukkit.getPluginManager().registerEvents(new GetReportMessage(plugin), plugin);
             Bukkit.getPluginManager().registerEvents(new MenuListener(), plugin);
             Bukkit.getPluginManager().registerEvents(new FreezeListeners(plugin), plugin);
             Bukkit.getPluginManager().registerEvents(new InventoryListeners(plugin), plugin);
-            Bukkit.getPluginManager().registerEvents(new onPLayerLeave(plugin), plugin);
+            Bukkit.getPluginManager().registerEvents(new OnPLayerLeave(plugin), plugin);
             Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new TPS(), 100L, 1L);
             Bukkit.getServer().getScheduler().scheduleAsyncRepeatingTask(this, () -> {
                 for (Player players : Bukkit.getOnlinePlayers()) {
@@ -195,8 +195,8 @@ public final class StaffCorePlugin extends JavaPlugin {
                         if (CountdownManager.checkMuteCountdown(players)) {
                             long remaining = CountdownManager.getMuteCountDown(players);
                             if (remaining == 0 || remaining == 1) {
-                                utils.PlaySound(players, "muted_try_to_chat");
-                                utils.tell(players, getConfig().getString("server_prefix") + "&aYou were UnMuted!");
+                                Utils.PlaySound(players, "muted_try_to_chat");
+                                Utils.tell(players, getConfig().getString("server_prefix") + "&aYou were UnMuted!");
                             }
                         }
                     } catch (NullPointerException | ArrayIndexOutOfBoundsException | IllegalStateException ignored) {
@@ -204,35 +204,35 @@ public final class StaffCorePlugin extends JavaPlugin {
                 }
             }, 0L, 20L);
         } else {
-            c.sendMessage(utils.chat(getConfig().getString("server_prefix") + "&1---------------------------------------------------------"));
-            c.sendMessage(utils.chat(getConfig().getString("server_prefix") + "&4&l              STAFF-CORE."));
-            c.sendMessage(utils.chat(getConfig().getString("server_prefix") + "&4&lRunning STAFF-CORE in a old version Server."));
-            c.sendMessage(utils.chat(getConfig().getString("server_prefix") + "&1---------------------------------------------------------"));
+            c.sendMessage(Utils.chat(getConfig().getString("server_prefix") + "&1---------------------------------------------------------"));
+            c.sendMessage(Utils.chat(getConfig().getString("server_prefix") + "&4&l              STAFF-CORE."));
+            c.sendMessage(Utils.chat(getConfig().getString("server_prefix") + "&4&lRunning STAFF-CORE in a old version Server."));
+            c.sendMessage(Utils.chat(getConfig().getString("server_prefix") + "&1---------------------------------------------------------"));
         }
         if (getConfig().getBoolean("mysql.enabled")) {
             try {
                 Mysql.connect();
                 SQLGetter.createTables();
-                c.sendMessage(utils.chat(getConfig().getString("server_prefix") + "             &a&lMysql: &aTRUE"));
+                c.sendMessage(Utils.chat(getConfig().getString("server_prefix") + "             &a&lMysql: &aTRUE"));
                 StaffQuery.addToggledPlayersToList();
             } catch (SQLException e) {
-                c.sendMessage(utils.chat(getConfig().getString("server_prefix") + "             &a&lMysql: &cFALSE"));
-                c.sendMessage(utils.chat(getConfig().getString("server_prefix") + "&a      Disabling Staff-Core &6" + getDescription().getVersion()));
-                c.sendMessage(utils.chat(getConfig().getString("server_prefix") + "&1---------------------------------------------"));
+                c.sendMessage(Utils.chat(getConfig().getString("server_prefix") + "             &a&lMysql: &cFALSE"));
+                c.sendMessage(Utils.chat(getConfig().getString("server_prefix") + "&a      Disabling Staff-Core &6" + getDescription().getVersion()));
+                c.sendMessage(Utils.chat(getConfig().getString("server_prefix") + "&1---------------------------------------------"));
                 getServer().getPluginManager().disablePlugin(plugin);
                 return;
             }
         } else {
-            c.sendMessage(utils.chat(getConfig().getString("server_prefix") + "             &a&lMysql: &cFALSE"));
+            c.sendMessage(Utils.chat(getConfig().getString("server_prefix") + "             &a&lMysql: &cFALSE"));
         }
-        c.sendMessage(utils.chat(getConfig().getString("server_prefix") + "&1---------------------------------------------"));
+        c.sendMessage(Utils.chat(getConfig().getString("server_prefix") + "&1---------------------------------------------"));
         getServer().getMessenger().registerOutgoingPluginChannel(plugin, "sc:alerts");
         getServer().getMessenger().registerIncomingPluginChannel(plugin, "sc:stafflist", new PluginMessage());
         getServer().getMessenger().registerIncomingPluginChannel(plugin, "sc:alerts", new PluginMessage());
         getServer().getMessenger().registerOutgoingPluginChannel(plugin, "sc:stafflist");
         getServer().getMessenger().registerIncomingPluginChannel(plugin, "BungeeCord", new PluginMessage());
         getServer().getMessenger().registerOutgoingPluginChannel(plugin, "BungeeCord");
-        Bukkit.getScheduler().runTaskAsynchronously(this, () -> playerSkins = utils.getSavedSkins());
+        Bukkit.getScheduler().runTaskAsynchronously(this, () -> playerSkins = Utils.getSavedSkins());
         if (Mysql.isConnected()) {
             new VanishMysql(plugin);
             new FreezeMysql(plugin);
@@ -248,15 +248,15 @@ public final class StaffCorePlugin extends JavaPlugin {
     }
 
     public void onDisable() {
-        c.sendMessage(utils.chat(getConfig().getString("server_prefix") + "&1---------------------------------------------"));
-        c.sendMessage(utils.chat(getConfig().getString("server_prefix") + "&a    Plugin &5" + plugin.getName() + "&4&l DISABLED"));
-        c.sendMessage(utils.chat(getConfig().getString("server_prefix") + "&1---------------------------------------------"));
-        c.sendMessage(utils.chat(getConfig().getString("server_prefix") + "&a         Staff-Core: &5" + plugin.getDescription().getVersion()));
-        c.sendMessage(utils.chat(getConfig().getString("server_prefix") + "&1---------------------------------------------"));
+        c.sendMessage(Utils.chat(getConfig().getString("server_prefix") + "&1---------------------------------------------"));
+        c.sendMessage(Utils.chat(getConfig().getString("server_prefix") + "&a    Plugin &5" + plugin.getName() + "&4&l DISABLED"));
+        c.sendMessage(Utils.chat(getConfig().getString("server_prefix") + "&1---------------------------------------------"));
+        c.sendMessage(Utils.chat(getConfig().getString("server_prefix") + "&a         Staff-Core: &5" + plugin.getDescription().getVersion()));
+        c.sendMessage(Utils.chat(getConfig().getString("server_prefix") + "&1---------------------------------------------"));
         if (getConfig().getBoolean("mysql.enabled")) {
             Mysql.disconnect();
-            c.sendMessage(utils.chat(getConfig().getString("server_prefix") + "&c      Disconnected from the database!"));
-            c.sendMessage(utils.chat(getConfig().getString("server_prefix") + "&1---------------------------------------------"));
+            c.sendMessage(Utils.chat(getConfig().getString("server_prefix") + "&c      Disconnected from the database!"));
+            c.sendMessage(Utils.chat(getConfig().getString("server_prefix") + "&1---------------------------------------------"));
         }
     }
 

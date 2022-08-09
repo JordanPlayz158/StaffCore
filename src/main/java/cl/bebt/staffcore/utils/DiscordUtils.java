@@ -12,30 +12,30 @@ import java.util.Date;
 
 public class DiscordUtils {
 
-    public static String AlertsChannel = utils.getString("discord.type.alerts.webhook_url");
+    public static String AlertsChannel = Utils.getString("discord.type.alerts.webhook_url");
 
-    protected static String AlertsChannelImage = utils.getString("discord.type.alerts.custom_image_url");
+    protected static String AlertsChannelImage = Utils.getString("discord.type.alerts.custom_image_url");
 
-    protected static String AlertsName = utils.getString("discord.type.alerts.name");
+    protected static String AlertsName = Utils.getString("discord.type.alerts.name");
 
-    protected static String AlertsNameImage = utils.getString("discord.type.alerts.name_image_url");
+    protected static String AlertsNameImage = Utils.getString("discord.type.alerts.name_image_url");
 
-    protected static String AlertsNameUrl = utils.getString("discord.type.alerts.name_web_url");
+    protected static String AlertsNameUrl = Utils.getString("discord.type.alerts.name_web_url");
 
-    protected static int AlertsColor = utils.getInt("discord.type.alerts.color", null);
+    protected static int AlertsColor = Utils.getInt("discord.type.alerts.color", null);
 
 
-    protected static String DebugChannel = utils.getString("discord.type.debug.webhook_url");
+    protected static String DebugChannel = Utils.getString("discord.type.debug.webhook_url");
 
-    protected static String DebugChannelImage = utils.getString("discord.type.debug.custom_image_url");
+    protected static String DebugChannelImage = Utils.getString("discord.type.debug.custom_image_url");
 
-    protected static String DebugName = utils.getString("discord.type.debug.name");
+    protected static String DebugName = Utils.getString("discord.type.debug.name");
 
-    protected static String DebugNameImage = utils.getString("discord.type.debug.name_image_url");
+    protected static String DebugNameImage = Utils.getString("discord.type.debug.name_image_url");
 
-    protected static String DebugNameUrl = utils.getString("discord.type.debug.name_web_url");
+    protected static String DebugNameUrl = Utils.getString("discord.type.debug.name_web_url");
 
-    protected static int DebugColor = utils.getInt("discord.type.debug.color", null);
+    protected static int DebugColor = Utils.getInt("discord.type.debug.color", null);
 
 
     public static void DiscordWebHooksAlerts(ArrayList<String> msg, String title) {

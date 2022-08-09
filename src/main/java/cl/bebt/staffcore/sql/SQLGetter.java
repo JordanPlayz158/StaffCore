@@ -1,8 +1,8 @@
 package cl.bebt.staffcore.sql;
 
 import cl.bebt.staffcore.StaffCorePlugin;
-import cl.bebt.staffcore.sql.Queries.AltsQuery;
-import cl.bebt.staffcore.utils.utils;
+import cl.bebt.staffcore.sql.queries.AltsQuery;
+import cl.bebt.staffcore.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -48,8 +48,8 @@ public class SQLGetter {
             ps = Mysql.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS sc_reports (ReportId int NOT NULL AUTO_INCREMENT,Name varchar(20) NOT NULL,Reporter varchar(20) NOT NULL,Reason varchar(100), Date varchar(20), Status varchar(10),PRIMARY KEY (ReportId))");
             ps.executeUpdate();
         } catch (SQLException ignored) {
-            plugin.getServer().getConsoleSender().sendMessage(utils.chat("&c[&5Staff Core&c] There has been an error with the mysql"));
-            plugin.getServer().getConsoleSender().sendMessage(utils.chat("&c[&5Staff Core&c] Not able to connect to the Database"));
+            plugin.getServer().getConsoleSender().sendMessage(Utils.chat("&c[&5Staff Core&c] There has been an error with the mysql"));
+            plugin.getServer().getConsoleSender().sendMessage(Utils.chat("&c[&5Staff Core&c] Not able to connect to the Database"));
             ignored.printStackTrace();
         }
     }
@@ -63,8 +63,8 @@ public class SQLGetter {
             ps = Mysql.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS sc_bans (BanId int NOT NULL AUTO_INCREMENT,Name varchar(20) NOT NULL,Baner varchar(20) NOT NULL,Reason varchar(100)NOT NULL,Date varchar(20)NOT NULL, ExpDate varchar(100)NOT NULL, IP varchar(100)NOT NULL, IP_Banned varchar(10)NOT NULL, Status varchar(10)NOT NULL,PRIMARY KEY (BanId));");
             ps.executeUpdate();
         } catch (SQLException ignored) {
-            plugin.getServer().getConsoleSender().sendMessage(utils.chat("&c[&5Staff Core&c] There has been an error with the mysql"));
-            plugin.getServer().getConsoleSender().sendMessage(utils.chat("&c[&5Staff Core&c] Not able to connect to the Database"));
+            plugin.getServer().getConsoleSender().sendMessage(Utils.chat("&c[&5Staff Core&c] There has been an error with the mysql"));
+            plugin.getServer().getConsoleSender().sendMessage(Utils.chat("&c[&5Staff Core&c] Not able to connect to the Database"));
             ignored.printStackTrace();
         }
     }
@@ -78,8 +78,8 @@ public class SQLGetter {
             ps = Mysql.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS sc_warns (WarnId int NOT NULL AUTO_INCREMENT,Name varchar(20) NOT NULL,Warner varchar(20) NOT NULL,Reason varchar(100)NOT NULL,Date varchar(20)NOT NULL, ExpDate varchar(100)NOT NULL, Status varchar(10)NOT NULL,PRIMARY KEY (WarnId));");
             ps.executeUpdate();
         } catch (SQLException ignored) {
-            plugin.getServer().getConsoleSender().sendMessage(utils.chat("&c[&5Staff Core&c] There has been an error with the mysql"));
-            plugin.getServer().getConsoleSender().sendMessage(utils.chat("&c[&5Staff Core&c] Not able to connect to the Database"));
+            plugin.getServer().getConsoleSender().sendMessage(Utils.chat("&c[&5Staff Core&c] There has been an error with the mysql"));
+            plugin.getServer().getConsoleSender().sendMessage(Utils.chat("&c[&5Staff Core&c] Not able to connect to the Database"));
             ignored.printStackTrace();
         }
     }
@@ -91,11 +91,11 @@ public class SQLGetter {
         PreparedStatement ps;
         try {
             ps = Mysql.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS sc_settings ( ServerName VARCHAR(30) NOT NULL DEFAULT ?, Version VARCHAR(5) NOT NULL DEFAULT '4.4.6', IsUpdated BOOLEAN NOT NULL DEFAULT true)");
-            ps.setString(1, utils.getServer());
+            ps.setString(1, Utils.getServer());
             ps.executeUpdate();
         } catch (SQLException ignored) {
-            plugin.getServer().getConsoleSender().sendMessage(utils.chat("&c[&5Staff Core&c] There has been an error with the mysql"));
-            plugin.getServer().getConsoleSender().sendMessage(utils.chat("&c[&5Staff Core&c] Not able to connect to the Database"));
+            plugin.getServer().getConsoleSender().sendMessage(Utils.chat("&c[&5Staff Core&c] There has been an error with the mysql"));
+            plugin.getServer().getConsoleSender().sendMessage(Utils.chat("&c[&5Staff Core&c] Not able to connect to the Database"));
             ignored.printStackTrace();
         }
     }
@@ -113,7 +113,7 @@ public class SQLGetter {
             createStaffCoreSettingsTable();
             if (!AltsQuery.checkAltsTable()) {
                 for (Player p : Bukkit.getOnlinePlayers()) {
-                    utils.tellHover(p, "&cHEY STAFFCORE IS MAKING SOME UPDATES IN THE DB", "&aClick to see What's Going on", "https://staffcore.glitch.me/news/alts-migration");
+                    Utils.tellHover(p, "&cHEY STAFFCORE IS MAKING SOME UPDATES IN THE DB", "&aClick to see What's Going on", "https://staffcore.glitch.me/news/alts-migration");
                 }
                 AltsQuery.MigrateAltsTable();
             }

@@ -1,11 +1,11 @@
 package cl.bebt.staffcore.utils;
 
-import cl.bebt.staffcore.MSGChanel.SendMsg;
+import cl.bebt.staffcore.msgchannel.SendMsg;
 import cl.bebt.staffcore.StaffCorePlugin;
-import cl.bebt.staffcore.sql.Queries.AltsQuery;
-import cl.bebt.staffcore.sql.Queries.BansQuery;
-import cl.bebt.staffcore.sql.Queries.ReportsQuery;
-import cl.bebt.staffcore.sql.Queries.WarnsQuery;
+import cl.bebt.staffcore.sql.queries.AltsQuery;
+import cl.bebt.staffcore.sql.queries.BansQuery;
+import cl.bebt.staffcore.sql.queries.ReportsQuery;
+import cl.bebt.staffcore.sql.queries.WarnsQuery;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.CommandSender;
@@ -27,8 +27,8 @@ public class wipePlayer {
         int bans = 0;
         int reports = 0;
         int warns = 0;
-        if (utils.isRegistered(p)) {
-            if (utils.mysqlEnabled()) {
+        if (Utils.isRegistered(p)) {
+            if (Utils.mysqlEnabled()) {
                 if (plugin.getConfig().getBoolean("wipe.bans")) {
                     bans = BansQuery.wipePlayerBans(p);
                 }
@@ -96,24 +96,24 @@ public class wipePlayer {
                 plugin.alts.saveConfig();
             }
             for (Player people : Bukkit.getOnlinePlayers()) {
-                if (people.hasPermission("staffcore.staff") || utils.getBoolean("alerts.wipe_players")) {
-                    for (String key : utils.getStringList("wipe.wipe_msg", "alerts")) {
+                if (people.hasPermission("staffcore.staff") || Utils.getBoolean("alerts.wipe_players")) {
+                    for (String key : Utils.getStringList("wipe.wipe_msg", "alerts")) {
                         key = key.replace("%wiper%", sender.getName());
                         key = key.replace("%wiped%", p);
                         key = key.replace("%Bans%", String.valueOf(bans));
                         key = key.replace("%warns%", String.valueOf(warns));
                         key = key.replace("%reports%", String.valueOf(reports));
-                        utils.tell(people, key);
+                        Utils.tell(people, key);
                     }
                 }
             }
-            SendMsg.sendWipeAlert(sender.getName(), p, bans, reports, warns, utils.getServer());
+            SendMsg.sendWipeAlert(sender.getName(), p, bans, reports, warns, Utils.getServer());
         }
     }
 
     public static void WipeOnBan(StaffCorePlugin plugin, String p) {
-        if (utils.isRegistered(p)) {
-            if (utils.mysqlEnabled()) {
+        if (Utils.isRegistered(p)) {
+            if (Utils.mysqlEnabled()) {
                 if (plugin.getConfig().getBoolean("wipe.reports")) {
                     List<Integer> ids = ReportsQuery.getPlayersIds(p);
                     for (int i : ids) {
@@ -230,7 +230,7 @@ public class wipePlayer {
     }
 
     public static int count(String type) {
-        if (utils.mysqlEnabled()) {
+        if (Utils.mysqlEnabled()) {
             if (type.equalsIgnoreCase("report")) {
                 return ReportsQuery.getCurrentReports();
             } else {

@@ -1,10 +1,10 @@
 package cl.bebt.staffcore.listeners;
 
-import cl.bebt.staffcore.API.StaffCoreAPI;
+import cl.bebt.staffcore.api.StaffCoreAPI;
 import cl.bebt.staffcore.StaffCorePlugin;
 import cl.bebt.staffcore.menu.*;
-import cl.bebt.staffcore.menu.menu.Inventory.openChest;
-import cl.bebt.staffcore.menu.menu.Staff.ServerManager;
+import cl.bebt.staffcore.menu.menu.inventory.OpenChest;
+import cl.bebt.staffcore.menu.menu.staff.ServerManager;
 import cl.bebt.staffcore.utils.*;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -51,19 +51,19 @@ public class FreezeListeners implements Listener {
             String yellow = "&6&l" + block;
             String red = "&4&l" + block;
             String black = "&0&l" + block;
-            utils.tell(p, white + white + white + white + white + white + white + white + white);
-            utils.tell(p, white + white + white + white + red + white + white + white + white);
-            utils.tell(p, white + white + white + red + yellow + red + white + white + white);
-            utils.tell(p, white + white + red + yellow + black + yellow + red + white + white);
-            utils.tell(p, white + white + red + yellow + black + yellow + red + white + white);
-            utils.tell(p, white + red + yellow + yellow + black + yellow + yellow + red + white);
-            utils.tell(p, white + red + yellow + yellow + yellow + yellow + yellow + red + white);
-            utils.tell(p, red + yellow + yellow + yellow + black + yellow + yellow + yellow + red);
-            utils.tell(p, red + red + red + red + red + red + red + red + red);
-            ComponentBuilder cb = new ComponentBuilder(utils.chat(utils.getString("freeze.freeze_message_description", "lg", null)));
-            TextComponent dis = new TextComponent(utils.chat(utils.getString("freeze.freeze_message", "lg", null)));
+            Utils.tell(p, white + white + white + white + white + white + white + white + white);
+            Utils.tell(p, white + white + white + white + red + white + white + white + white);
+            Utils.tell(p, white + white + white + red + yellow + red + white + white + white);
+            Utils.tell(p, white + white + red + yellow + black + yellow + red + white + white);
+            Utils.tell(p, white + white + red + yellow + black + yellow + red + white + white);
+            Utils.tell(p, white + red + yellow + yellow + black + yellow + yellow + red + white);
+            Utils.tell(p, white + red + yellow + yellow + yellow + yellow + yellow + red + white);
+            Utils.tell(p, red + yellow + yellow + yellow + black + yellow + yellow + yellow + red);
+            Utils.tell(p, red + red + red + red + red + red + red + red + red);
+            ComponentBuilder cb = new ComponentBuilder(Utils.chat(Utils.getString("freeze.freeze_message_description", "lg", null)));
+            TextComponent dis = new TextComponent(Utils.chat(Utils.getString("freeze.freeze_message", "lg", null)));
             dis.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, cb.create()));
-            dis.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://" + utils.getString("freeze.freeze_ds", "lg", null)));
+            dis.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://" + Utils.getString("freeze.freeze_ds", "lg", null)));
             p.spigot().sendMessage(dis);
             e.setCancelled(true);
         }
@@ -104,7 +104,7 @@ public class FreezeListeners implements Listener {
                                     } catch (NullPointerException ignored) {
                                     }
                                 }
-                                new openChest(StaffCorePlugin.getPlayerMenuUtility(p), chest_slots, size).open();
+                                new OpenChest(StaffCorePlugin.getPlayerMenuUtility(p), chest_slots, size).open();
                             }
                             case CHEST_MINECART:
                                 e.setCancelled(true);
@@ -119,7 +119,7 @@ public class FreezeListeners implements Listener {
                                     } catch (NullPointerException ignored) {
                                     }
                                 }
-                                new openChest(StaffCorePlugin.getPlayerMenuUtility(p), chest_slots, size).open();
+                                new OpenChest(StaffCorePlugin.getPlayerMenuUtility(p), chest_slots, size).open();
                             }
                             case ENDER_CHEST:
                                 e.setCancelled(true);
@@ -189,7 +189,7 @@ public class FreezeListeners implements Listener {
                 }
                 if (SetStaffItems.staffOff().equals(itemInMainHand)) {
                     SetStaffItems.Off(p);
-                    utils.tell(p, utils.getString("staff.disabled", "lg", "staff"));
+                    Utils.tell(p, Utils.getString("staff.disabled", "lg", "staff"));
                     return;
                 }
                 if (SetStaffItems.serverManager().equals(itemInMainHand)) {
@@ -202,7 +202,7 @@ public class FreezeListeners implements Listener {
                             SetVanish.setVanish(p, false);
                             p.getInventory().remove(SetStaffItems.vanishOn());
                             p.getInventory().setItemInMainHand(SetStaffItems.vanishOff());
-                            utils.tell(p, utils.getString("vanish.disabled", "lg", "staff"));
+                            Utils.tell(p, Utils.getString("vanish.disabled", "lg", "staff"));
                             CountdownManager.setCountDown(p, 0.2D);
                         }, 1L);
                     }
@@ -211,18 +211,18 @@ public class FreezeListeners implements Listener {
                             SetVanish.setVanish(p, true);
                             p.getInventory().remove(SetStaffItems.vanishOff());
                             p.getInventory().setItemInMainHand(SetStaffItems.vanishOn());
-                            utils.tell(p, utils.getString("vanish.enabled", "lg", "staff"));
+                            Utils.tell(p, Utils.getString("vanish.enabled", "lg", "staff"));
                             CountdownManager.setCountDown(p, 0.2D);
                         }, 1L);
                     }
                     if (SetStaffItems.randomTp().equals(itemInMainHand)) {
                         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
-                            Player random = utils.randomPlayer(p);
+                            Player random = Utils.randomPlayer(p);
                             if (random != null) {
                                 p.teleport(random.getLocation());
-                                utils.tell(p, utils.getString("tp.random", "lg", "staff").replace("%player%", random.getName()));
+                                Utils.tell(p, Utils.getString("tp.random", "lg", "staff").replace("%player%", random.getName()));
                             } else {
-                                utils.tell(p, utils.getString("tp.not_enough", "lg", "staff"));
+                                Utils.tell(p, Utils.getString("tp.not_enough", "lg", "staff"));
                             }
                             CountdownManager.setCountDown(p, 0.2D);
                         }, 1L);
@@ -376,28 +376,28 @@ public class FreezeListeners implements Listener {
             }
         }
         if (e.getItemDrop().getItemStack().isSimilar(SetStaffItems.staffOff())) {
-            utils.PlaySound(p, "staff_items_drop");
+            Utils.PlaySound(p, "staff_items_drop");
             e.setCancelled(true);
         } else if (e.getItemDrop().getItemStack().isSimilar(SetStaffItems.vanishOn())) {
-            utils.PlaySound(p, "staff_items_drop");
+            Utils.PlaySound(p, "staff_items_drop");
             e.setCancelled(true);
         } else if (e.getItemDrop().getItemStack().isSimilar(SetStaffItems.vanishOff())) {
-            utils.PlaySound(p, "staff_items_drop");
+            Utils.PlaySound(p, "staff_items_drop");
             e.setCancelled(true);
         } else if (e.getItemDrop().getItemStack().isSimilar(SetStaffItems.serverManager())) {
-            utils.PlaySound(p, "staff_items_drop");
+            Utils.PlaySound(p, "staff_items_drop");
             e.setCancelled(true);
         } else if (e.getItemDrop().getItemStack().isSimilar(SetStaffItems.freeze())) {
-            utils.PlaySound(p, "staff_items_drop");
+            Utils.PlaySound(p, "staff_items_drop");
             e.setCancelled(true);
         } else if (e.getItemDrop().getItemStack().isSimilar(SetStaffItems.reportManager())) {
-            utils.PlaySound(p, "staff_items_drop");
+            Utils.PlaySound(p, "staff_items_drop");
             e.setCancelled(true);
         } else if (e.getItemDrop().getItemStack().isSimilar(SetStaffItems.InvSee())) {
-            utils.PlaySound(p, "staff_items_drop");
+            Utils.PlaySound(p, "staff_items_drop");
             e.setCancelled(true);
         } else if (e.getItemDrop().getItemStack().isSimilar(SetStaffItems.randomTp())) {
-            utils.PlaySound(p, "staff_items_drop");
+            Utils.PlaySound(p, "staff_items_drop");
             e.setCancelled(true);
         }
     }
@@ -432,14 +432,14 @@ public class FreezeListeners implements Listener {
                 Player p = (Player) e.getRightClicked();
                 PersistentDataContainer pData = p.getPersistentDataContainer();
                 if (pData.has(new NamespacedKey(plugin, "frozen"), PersistentDataType.STRING)) {
-                    FreezePlayer.FreezePlayer(p, player.getName(), false);
+                    FreezePlayer.freeze(p, player.getName(), false);
 
                 } else if (!pData.has(new NamespacedKey(plugin, "frozen"), PersistentDataType.STRING)) {
                     if (p.hasPermission("staffcore.freeze.bypass")) {
-                        utils.tell(player, utils.getString("freeze.freeze_bypass", "lg", "staff").replace("%player%", p.getName()));
+                        Utils.tell(player, Utils.getString("freeze.freeze_bypass", "lg", "staff").replace("%player%", p.getName()));
                     } else {
-                        FreezePlayer.FreezePlayer(p, player.getName(), true);
-                        utils.tell(player, utils.getString("freeze.freeze_message", "lg", "staff"));
+                        FreezePlayer.freeze(p, player.getName(), true);
+                        Utils.tell(player, Utils.getString("freeze.freeze_message", "lg", "staff"));
                     }
                 }
             }
@@ -461,11 +461,11 @@ public class FreezeListeners implements Listener {
                 e.setCancelled(true);
             }
         }
-        if (utils.getBoolean("discord.type.debug.enabled_debugs.commands")) {
+        if (Utils.getBoolean("discord.type.debug.enabled_debugs.commands")) {
             ArrayList<String> dc = new ArrayList<>();
             dc.add("**Player:** " + player.getName());
             dc.add("**Command:** " + e.getMessage());
-            utils.sendDiscordDebugMsg(player, "⚠ Commands ⚠", dc);
+            Utils.sendDiscordDebugMsg(player, "⚠ Commands ⚠", dc);
         }
     }
 

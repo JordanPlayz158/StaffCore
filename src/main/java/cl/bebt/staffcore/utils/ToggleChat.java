@@ -26,14 +26,14 @@ public class ToggleChat {
         data.remove(new NamespacedKey(StaffCorePlugin.plugin, "muted"));
         CountdownManager.removeMuteCountdown(muted);
         if (p instanceof Player) {
-            utils.tell(muted, utils.getString("toggle_chat.un_mute_by_player", "lg", "staff").replace("%player%", p.getName()));
+            Utils.tell(muted, Utils.getString("toggle_chat.un_mute_by_player", "lg", "staff").replace("%player%", p.getName()));
         } else {
-            utils.tell(muted, utils.getString("toggle_chat.un_mute_by_console", "lg", "staff"));
+            Utils.tell(muted, Utils.getString("toggle_chat.un_mute_by_console", "lg", "staff"));
         }
         for (Player people : Bukkit.getOnlinePlayers()) {
-            if (people.hasPermission("staffcore.staff") || utils.getBoolean("alerts.mute_player")) {
-                utils.PlaySound(people, "staff_mute_alerts");
-                for (String key : utils.getStringList("chat.toggle", "alerts")) {
+            if (people.hasPermission("staffcore.staff") || Utils.getBoolean("alerts.mute_player")) {
+                Utils.PlaySound(people, "staff_mute_alerts");
+                for (String key : Utils.getStringList("chat.toggle", "alerts")) {
                     if (p instanceof Player) {
                         key = key.replace("%staff%", p.getName());
                     } else {
@@ -41,7 +41,7 @@ public class ToggleChat {
                     }
                     key = key.replace("%muted%", muted.getName());
                     key = key.replace("%status%", "&aUn Muted");
-                    utils.tell(people, key);
+                    Utils.tell(people, key);
                 }
             }
         }
@@ -53,14 +53,14 @@ public class ToggleChat {
             data.set(new NamespacedKey(StaffCorePlugin.plugin, "muted"), PersistentDataType.STRING, "muted");
             if (p instanceof Player) {
                 Player jugador = (Player) p;
-                utils.tell(muted, utils.getString("toggle_chat.mute_by_player", "lg", "sv").replace("%player%", jugador.getName()));
+                Utils.tell(muted, Utils.getString("toggle_chat.mute_by_player", "lg", "sv").replace("%player%", jugador.getName()));
             } else {
-                utils.tell(muted, utils.getString("toggle_chat.mute_by_player", "lg", "sv").replace("%player%", "CONSOLE"));
+                Utils.tell(muted, Utils.getString("toggle_chat.mute_by_player", "lg", "sv").replace("%player%", "CONSOLE"));
             }
             for (Player people : Bukkit.getOnlinePlayers()) {
-                if (people.hasPermission("staffcore.staff") || utils.getBoolean("alerts.mute_player")) {
-                    utils.PlaySound(people, "staff_mute_alerts");
-                    for (String key : utils.getStringList("chat.toggle", "alerts")) {
+                if (people.hasPermission("staffcore.staff") || Utils.getBoolean("alerts.mute_player")) {
+                    Utils.PlaySound(people, "staff_mute_alerts");
+                    for (String key : Utils.getStringList("chat.toggle", "alerts")) {
                         if (p instanceof Player) {
                             key = key.replace("%staff%", p.getName());
                         } else {
@@ -68,7 +68,7 @@ public class ToggleChat {
                         }
                         key = key.replace("%muted%", muted.getName());
                         key = key.replace("%status%", "&cMuted");
-                        utils.tell(people, key);
+                        Utils.tell(people, key);
                     }
                 }
             }
@@ -97,20 +97,20 @@ public class ToggleChat {
             sendMessage((Player) sender, p, amount, "d");
             DataExporter.updateServerStats("mute");
         } else {
-            utils.tell(sender, utils.getString("wrong_usage", "lg", "staff").replace("%command%", "mute " + p.getName() + " &d10<s/m/h/d>"));
+            Utils.tell(sender, Utils.getString("wrong_usage", "lg", "staff").replace("%command%", "mute " + p.getName() + " &d10<s/m/h/d>"));
         }
     }
 
     private static void sendMessage(Player p, Player muted, long amount, String quantity) {
         for (Player people : Bukkit.getOnlinePlayers()) {
-            if (people.hasPermission("staffcore.staff") || utils.getBoolean("alerts.mute_player") || people.equals(muted)) {
-                utils.PlaySound(people, "staff_mute_alerts");
-                for (String key : utils.getStringList("chat.temporal_mute", "alerts")) {
+            if (people.hasPermission("staffcore.staff") || Utils.getBoolean("alerts.mute_player") || people.equals(muted)) {
+                Utils.PlaySound(people, "staff_mute_alerts");
+                for (String key : Utils.getStringList("chat.temporal_mute", "alerts")) {
                     key = key.replace("%staff%", p.getName());
                     key = key.replace("%muted%", muted.getName());
                     key = key.replace("%amount%", String.valueOf(amount));
                     key = key.replace("%quantity%", quantity);
-                    utils.tell(people, key);
+                    Utils.tell(people, key);
                 }
             }
         }

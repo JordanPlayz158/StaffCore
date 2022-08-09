@@ -1,11 +1,11 @@
 package cl.bebt.staffcore.utils;
 
-import cl.bebt.staffcore.API.StaffCoreAPI;
-import cl.bebt.staffcore.MSGChanel.SendMsg;
+import cl.bebt.staffcore.api.StaffCoreAPI;
+import cl.bebt.staffcore.msgchannel.SendMsg;
 import cl.bebt.staffcore.StaffCorePlugin;
 import cl.bebt.staffcore.menu.PlayerMenuUtility;
-import cl.bebt.staffcore.menu.menu.Warn.WarnMenu;
-import cl.bebt.staffcore.sql.Queries.WarnsQuery;
+import cl.bebt.staffcore.menu.menu.warn.WarnMenu;
+import cl.bebt.staffcore.sql.queries.WarnsQuery;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -48,7 +48,7 @@ public class WarnPlayer {
         Date ExpDate = cal.getTime();
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
-        if (utils.mysqlEnabled()) {
+        if (Utils.mysqlEnabled()) {
             WarnsQuery.createWarn(warned, p.getName(), reason, format.format(now), format.format(ExpDate), "open");
         } else {
             if (StaffCorePlugin.plugin.warns.getConfig().contains("count")) {
@@ -63,11 +63,11 @@ public class WarnPlayer {
                 StaffCorePlugin.plugin.warns.saveConfig();
             }
         }
-        SendMsg.sendWarnAlert(p.getName(), warned, reason, amount, time, format.format(ExpDate), format.format(now), utils.getString("bungeecord.server"));
+        SendMsg.sendWarnAlert(p.getName(), warned, reason, amount, time, format.format(ExpDate), format.format(now), Utils.getString("bungeecord.server"));
         for (Player people : Bukkit.getOnlinePlayers()) {
-            if (utils.getBoolean("alerts.warn") || people.hasPermission("staffcore.staff")) {
-                utils.PlaySound(people, "warn_alerts");
-                for (String key : utils.getStringList("warns.alerts.warn_alerts", "alerts")) {
+            if (Utils.getBoolean("alerts.warn") || people.hasPermission("staffcore.staff")) {
+                Utils.PlaySound(people, "warn_alerts");
+                for (String key : Utils.getStringList("warns.alerts.warn_alerts", "alerts")) {
                     key = key.replace("%warner%", p.getName());
                     key = key.replace("%warned%", warned);
                     key = key.replace("%reason%", reason);
@@ -75,11 +75,11 @@ public class WarnPlayer {
                     key = key.replace("%time%", time);
                     key = key.replace("%exp_date%", format.format(ExpDate));
                     key = key.replace("%date%", format.format(now));
-                    utils.tell(people, key);
+                    Utils.tell(people, key);
                 }
             }
         }
-        if (utils.currentPlayerWarns(warned) >= utils.getInt("warns.max_warns", null)) {
+        if (Utils.currentPlayerWarns(warned) >= Utils.getInt("warns.max_warns", null)) {
             BanPlayer.BanCooldown(p, warned, reason + " (Max Warn Exeded)", amount, time);
             WipeWarns(warned);
         }
@@ -93,7 +93,7 @@ public class WarnPlayer {
         String warned = null;
         String status = "closed";
 
-        if (utils.mysqlEnabled()) {
+        if (Utils.mysqlEnabled()) {
             JSONObject json = WarnsQuery.getWarnsInfo(Id);
             if (!json.getBoolean("error")) {
                 reason = json.getString("Reason");
@@ -114,11 +114,11 @@ public class WarnPlayer {
             plugin.warns.getConfig().set("count", StaffCoreAPI.getCurrentWarns());
             plugin.warns.saveConfig();
         }
-        SendMsg.sendWarnChangeAlert(Id, p.getName(), warner, warned, reason, exp, created, status, utils.getServer());
+        SendMsg.sendWarnChangeAlert(Id, p.getName(), warner, warned, reason, exp, created, status, Utils.getServer());
         for (Player people : Bukkit.getOnlinePlayers()) {
             if (people.hasPermission("staffcore.staff")) {
-                utils.PlaySound(p, "close_ban");
-                for (String key : utils.getStringList("warns.alerts.warn_change", "alerts")) {
+                Utils.PlaySound(p, "close_ban");
+                for (String key : Utils.getStringList("warns.alerts.warn_change", "alerts")) {
                     key = key.replace("%changed_by%", p.getName());
                     key = key.replace("%warner%", warner);
                     key = key.replace("%warned%", warned);
@@ -127,7 +127,7 @@ public class WarnPlayer {
                     key = key.replace("%create_date%", created);
                     key = key.replace("%exp_date%", exp);
                     key = key.replace("%warn_status%", "CLOSED");
-                    utils.tell(people, key);
+                    Utils.tell(people, key);
                 }
             }
         }
@@ -141,7 +141,7 @@ public class WarnPlayer {
         String warned = null;
         String status = "open";
 
-        if (utils.mysqlEnabled()) {
+        if (Utils.mysqlEnabled()) {
             JSONObject json = WarnsQuery.getWarnsInfo(Id);
             if (!json.getBoolean("error")) {
                 reason = json.getString("Reason");
@@ -162,11 +162,11 @@ public class WarnPlayer {
             plugin.warns.getConfig().set("count", StaffCoreAPI.getCurrentWarns());
             plugin.warns.saveConfig();
         }
-        SendMsg.sendWarnChangeAlert(Id, p.getName(), warner, warned, reason, exp, created, status, utils.getServer());
+        SendMsg.sendWarnChangeAlert(Id, p.getName(), warner, warned, reason, exp, created, status, Utils.getServer());
         for (Player people : Bukkit.getOnlinePlayers()) {
             if (people.hasPermission("staffcore.staff")) {
-                utils.PlaySound(p, "close_ban");
-                for (String key : utils.getStringList("warns.alerts.warn_change", "alerts")) {
+                Utils.PlaySound(p, "close_ban");
+                for (String key : Utils.getStringList("warns.alerts.warn_change", "alerts")) {
                     key = key.replace("%changed_by%", p.getName());
                     key = key.replace("%warner%", warner);
                     key = key.replace("%warned%", warned);
@@ -175,7 +175,7 @@ public class WarnPlayer {
                     key = key.replace("%create_date%", created);
                     key = key.replace("%exp_date%", exp);
                     key = key.replace("%warn_status%", "OPEN");
-                    utils.tell(people, key);
+                    Utils.tell(people, key);
                 }
             }
         }
@@ -189,7 +189,7 @@ public class WarnPlayer {
         String warned = null;
         String status = "deleted";
 
-        if (utils.mysqlEnabled()) {
+        if (Utils.mysqlEnabled()) {
             JSONObject json = WarnsQuery.getWarnsInfo(Id);
             if (!json.getBoolean("error")) {
                 reason = json.getString("Reason");
@@ -210,11 +210,11 @@ public class WarnPlayer {
             plugin.warns.getConfig().set("count", StaffCoreAPI.getCurrentWarns());
             plugin.warns.saveConfig();
         }
-        SendMsg.sendWarnChangeAlert(Id, p.getName(), warner, warned, reason, exp, created, status, utils.getServer());
+        SendMsg.sendWarnChangeAlert(Id, p.getName(), warner, warned, reason, exp, created, status, Utils.getServer());
         for (Player people : Bukkit.getOnlinePlayers()) {
             if (people.hasPermission("staffcore.staff")) {
-                utils.PlaySound(p, "close_ban");
-                for (String key : utils.getStringList("warns.alerts.warn_change", "alerts")) {
+                Utils.PlaySound(p, "close_ban");
+                for (String key : Utils.getStringList("warns.alerts.warn_change", "alerts")) {
                     key = key.replace("%changed_by%", p.getName());
                     key = key.replace("%warner%", warner);
                     key = key.replace("%warned%", warned);
@@ -223,7 +223,7 @@ public class WarnPlayer {
                     key = key.replace("%create_date%", created);
                     key = key.replace("%exp_date%", exp);
                     key = key.replace("%warn_status%", "DELETED");
-                    utils.tell(people, key);
+                    Utils.tell(people, key);
                 }
             }
         }

@@ -1,8 +1,8 @@
 package cl.bebt.staffcore.utils;
 
-import cl.bebt.staffcore.MSGChanel.SendMsg;
+import cl.bebt.staffcore.msgchannel.SendMsg;
 import cl.bebt.staffcore.StaffCorePlugin;
-import cl.bebt.staffcore.sql.Queries.FreezeQuery;
+import cl.bebt.staffcore.sql.queries.FreezeQuery;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -17,29 +17,29 @@ public class FreezePlayer {
 
     private static final Plugin plugin = StaffCorePlugin.plugin;
 
-    public static void FreezePlayer(Player p, String freezer, Boolean bol) {
+    public static void freeze(Player p, String freezer, Boolean bol) {
         PersistentDataContainer PlayerData = p.getPersistentDataContainer();
         String status = "";
         if (bol) {
             p.setAllowFlight(true);
             p.setInvulnerable(true);
-            utils.PlaySound(p, "freeze");
-            utils.PlayParticle(p, "unfreeze_player");
+            Utils.PlaySound(p, "freeze");
+            Utils.PlayParticle(p, "unfreeze_player");
             PlayerData.set(new NamespacedKey(plugin, "frozen"), PersistentDataType.STRING, "frozen");
-            if (utils.mysqlEnabled()) {
+            if (Utils.mysqlEnabled()) {
                 FreezeQuery.enable(p.getName());
             }
-            status = utils.getString("freeze.freeze", "lg", null);
+            status = Utils.getString("freeze.freeze", "lg", null);
             try {
                 PlayerData.set(new NamespacedKey(plugin, "frozen_helmet"), PersistentDataType.STRING, Serializer.serialize(p.getInventory().getHelmet()));
             } catch (NullPointerException ignored) {
             }
-            if (utils.getBoolean("freeze.set_ice_block")) {
+            if (Utils.getBoolean("freeze.set_ice_block")) {
                 p.getInventory().setItem(39, new ItemStack(Material.BLUE_ICE));
             }
         } else {
-            utils.PlaySound(p, "un_freeze");
-            utils.PlayParticle(p, "freeze_player");
+            Utils.PlaySound(p, "un_freeze");
+            Utils.PlayParticle(p, "freeze_player");
             if (!(p.getGameMode() == GameMode.CREATIVE || p.getGameMode() == GameMode.SPECTATOR ||
                     PlayerData.has(new NamespacedKey(plugin, "vanished"), PersistentDataType.STRING) ||
                     PlayerData.has(new NamespacedKey(plugin, "flying"), PersistentDataType.STRING) ||
@@ -48,12 +48,12 @@ public class FreezePlayer {
                 p.setInvulnerable(false);
             }
             PlayerData.remove(new NamespacedKey(plugin, "frozen"));
-            if (utils.mysqlEnabled()) {
+            if (Utils.mysqlEnabled()) {
                 FreezeQuery.disable(p.getName());
             }
-            status = utils.getString("freeze.unfreeze", "lg", null);
+            status = Utils.getString("freeze.unfreeze", "lg", null);
 
-            if (utils.getBoolean("freeze.set_ice_block")) {
+            if (Utils.getBoolean("freeze.set_ice_block")) {
                 try {
                     ItemStack helmet = Serializer.deserialize(PlayerData.get(new NamespacedKey(plugin, "frozen_helmet"), PersistentDataType.STRING));
                     p.getInventory().setHelmet(helmet);
@@ -64,16 +64,16 @@ public class FreezePlayer {
             }
         }
         for (Player people : Bukkit.getOnlinePlayers()) {
-            if (utils.getBoolean("alerts.freeze") || people.hasPermission("staffcore.staff")) {
-                for (String key : utils.getStringList("freeze", "alerts")) {
+            if (Utils.getBoolean("alerts.freeze") || people.hasPermission("staffcore.staff")) {
+                for (String key : Utils.getStringList("freeze", "alerts")) {
                     key = key.replace("%frozen%", p.getName());
                     key = key.replace("%freezer%", freezer);
                     key = key.replace("%status%", status);
-                    utils.tell(people, key);
+                    Utils.tell(people, key);
                 }
             }
         }
-        SendMsg.sendFreezeAlert(freezer, p.getName(), bol, utils.getServer());
+        SendMsg.sendFreezeAlert(freezer, p.getName(), bol, Utils.getServer());
     }
 
 }

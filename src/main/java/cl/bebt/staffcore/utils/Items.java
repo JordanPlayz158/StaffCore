@@ -1,8 +1,8 @@
 package cl.bebt.staffcore.utils;
 
-import cl.bebt.staffcore.API.StaffCoreAPI;
+import cl.bebt.staffcore.api.StaffCoreAPI;
 import cl.bebt.staffcore.StaffCorePlugin;
-import cl.bebt.staffcore.sql.Queries.ServerQuery;
+import cl.bebt.staffcore.sql.queries.ServerQuery;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -16,7 +16,6 @@ import org.bukkit.potion.PotionEffect;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -25,31 +24,31 @@ public class Items {
 
     public static ItemStack head(Player target) {
         ArrayList<String> lore = new ArrayList<>();
-        ItemStack head = utils.getPlayerHead(target.getName());
+        ItemStack head = Utils.getPlayerHead(target.getName());
         ItemMeta head_meta = head.getItemMeta();
-        head_meta.setDisplayName(utils.chat("&a" + target.getName() + "'s &7Stats:"));
-        lore.add(utils.chat("&a► &7Gamemode: &b" + target.getGameMode()));
-        lore.add(utils.chat("&a► &7Location: &d" + (int) target.getLocation().getX() + " &3" + (int) target.getLocation().getY() + " &d" + (int) target.getLocation().getZ()));
-        lore.add(utils.chat("&a► &a" + target.getName() + "'s &7ping: &a" + utils.getPing(target)));
+        head_meta.setDisplayName(Utils.chat("&a" + target.getName() + "'s &7Stats:"));
+        lore.add(Utils.chat("&a► &7Gamemode: &b" + target.getGameMode()));
+        lore.add(Utils.chat("&a► &7Location: &d" + (int) target.getLocation().getX() + " &3" + (int) target.getLocation().getY() + " &d" + (int) target.getLocation().getZ()));
+        lore.add(Utils.chat("&a► &a" + target.getName() + "'s &7ping: &a" + Utils.getPing(target)));
         if (target.hasPermission("staffcore.staff")) {
-            lore.add(utils.chat("&5STAFF MEMBER"));
+            lore.add(Utils.chat("&5STAFF MEMBER"));
             if (target.getPersistentDataContainer().has(new NamespacedKey(StaffCorePlugin.plugin, "staff"), PersistentDataType.STRING)) {
-                lore.add(utils.chat("&a► &7Staff Mode &aOn"));
+                lore.add(Utils.chat("&a► &7Staff Mode &aOn"));
             }
             if (!target.getPersistentDataContainer().has(new NamespacedKey(StaffCorePlugin.plugin, "staff"), PersistentDataType.STRING)) {
-                lore.add(utils.chat("&a► &7Staff Mode &cOff"));
+                lore.add(Utils.chat("&a► &7Staff Mode &cOff"));
             }
             if (target.getPersistentDataContainer().has(new NamespacedKey(StaffCorePlugin.plugin, "vanished"), PersistentDataType.STRING)) {
-                lore.add(utils.chat("&a► &7Vanished &aOn"));
+                lore.add(Utils.chat("&a► &7Vanished &aOn"));
             }
             if (!target.getPersistentDataContainer().has(new NamespacedKey(StaffCorePlugin.plugin, "vanished"), PersistentDataType.STRING)) {
-                lore.add(utils.chat("&a► &7Vanished &cOff"));
+                lore.add(Utils.chat("&a► &7Vanished &cOff"));
             }
             if (StaffCoreAPI.getTrollStatus(target.getName())) {
-                lore.add(utils.chat("&a► &7Troll Mode: &aON"));
+                lore.add(Utils.chat("&a► &7Troll Mode: &aON"));
             }
             if (!StaffCoreAPI.getTrollStatus(target.getName())) {
-                lore.add(utils.chat("&a► &7Troll Mode: &cOFF"));
+                lore.add(Utils.chat("&a► &7Troll Mode: &cOFF"));
             }
         }
         head_meta.getPersistentDataContainer().set(new NamespacedKey(StaffCorePlugin.plugin, "head"), PersistentDataType.STRING, "head");
@@ -63,9 +62,9 @@ public class Items {
         ArrayList<String> lore = new ArrayList<>();
         ItemStack food = new ItemStack(Material.COOKED_BEEF);
         ItemMeta food_meta = food.getItemMeta();
-        food_meta.setDisplayName(utils.chat("&a" + target.getName() + "'s &7Health Stats:"));
-        lore.add(utils.chat("&a► &aHealth level: &c" + (int) target.getHealth() + "&l❤"));
-        lore.add(utils.chat("&a► &aFood level: &6" + target.getFoodLevel()));
+        food_meta.setDisplayName(Utils.chat("&a" + target.getName() + "'s &7Health Stats:"));
+        lore.add(Utils.chat("&a► &aHealth level: &c" + (int) target.getHealth() + "&l❤"));
+        lore.add(Utils.chat("&a► &aFood level: &6" + target.getFoodLevel()));
         food_meta.setLore(lore);
         food_meta.getPersistentDataContainer().set(new NamespacedKey(StaffCorePlugin.plugin, "food"), PersistentDataType.STRING, "food");
         food.setItemMeta(food_meta);
@@ -77,11 +76,11 @@ public class Items {
         if (!potions.isEmpty()) {
             ArrayList<String> lore = new ArrayList<>();
             for (PotionEffect a : potions) {
-                lore.add(utils.chat("&a► &7" + a.getType().getName() + " - " + getTime((long) a.getDuration())));
+                lore.add(Utils.chat("&a► &7" + a.getType().getName() + " - " + getTime((long) a.getDuration())));
             }
             ItemStack item = new ItemStack(Material.BREWING_STAND);
             ItemMeta itemMeta = item.getItemMeta();
-            itemMeta.setDisplayName(utils.chat("&aPotion Effects:"));
+            itemMeta.setDisplayName(Utils.chat("&aPotion Effects:"));
             itemMeta.setLore(lore);
             itemMeta.getPersistentDataContainer().set(new NamespacedKey(StaffCorePlugin.plugin, "poti"), PersistentDataType.STRING, "poti");
             item.setItemMeta(itemMeta);
@@ -89,8 +88,8 @@ public class Items {
         } else {
             ItemStack item = new ItemStack(Material.BREWING_STAND);
             ItemMeta itemMeta = item.getItemMeta();
-            itemMeta.setDisplayName(utils.chat("&aPotion Effects:"));
-            itemMeta.setLore(Collections.singletonList(utils.chat("&a► &cNo potion effects")));
+            itemMeta.setDisplayName(Utils.chat("&aPotion Effects:"));
+            itemMeta.setLore(Collections.singletonList(Utils.chat("&a► &cNo potion effects")));
             itemMeta.getPersistentDataContainer().set(new NamespacedKey(StaffCorePlugin.plugin, "poti"), PersistentDataType.STRING, "poti");
             item.setItemMeta(itemMeta);
             return item;
@@ -100,7 +99,7 @@ public class Items {
     public static ItemStack EmptyItem() {
         ItemStack item = new ItemStack(Material.BARRIER);
         ItemMeta itemMeta = item.getItemMeta();
-        itemMeta.setDisplayName(utils.chat("&cEMPTY WARN"));
+        itemMeta.setDisplayName(Utils.chat("&cEMPTY WARN"));
         item.setItemMeta(itemMeta);
         return item;
 
@@ -126,28 +125,28 @@ public class Items {
         ArrayList<String> lore = new ArrayList<>();
         ItemStack server = new ItemStack(Material.COMPASS);
         ItemMeta metaServer = server.getItemMeta();
-        metaServer.setDisplayName(utils.chat("&5SERVER STATUS:"));
+        metaServer.setDisplayName(Utils.chat("&5SERVER STATUS:"));
         metaServer.getPersistentDataContainer().set(new NamespacedKey(StaffCorePlugin.plugin, "server"), PersistentDataType.STRING, "server");
-        double tps = Math.round(utils.getTPS() * 100.0D) / 100.0D;
+        double tps = Math.round(Utils.getTPS() * 100.0D) / 100.0D;
         int mb = 1024 * 1024;
         Runtime instance = Runtime.getRuntime();
         if (tps > 20) {
             tps = 20D;
         }
-        lore.add(utils.chat("&a► &7Tps: &a" + tps));
-        lore.add(utils.chat("&a► &7Online players: &a" + Bukkit.getOnlinePlayers().size() + "/" + Bukkit.getMaxPlayers()));
-        lore.add(utils.chat("&a► &7Ram in use: &a" + (instance.totalMemory() - instance.freeMemory()) / mb) + "/" + instance.maxMemory() / mb);
-        lore.add(utils.chat("&5PUNISHMENTS STATUS:"));
-        if (utils.mysqlEnabled()) {
+        lore.add(Utils.chat("&a► &7Tps: &a" + tps));
+        lore.add(Utils.chat("&a► &7Online players: &a" + Bukkit.getOnlinePlayers().size() + "/" + Bukkit.getMaxPlayers()));
+        lore.add(Utils.chat("&a► &7Ram in use: &a" + (instance.totalMemory() - instance.freeMemory()) / mb) + "/" + instance.maxMemory() / mb);
+        lore.add(Utils.chat("&5PUNISHMENTS STATUS:"));
+        if (Utils.mysqlEnabled()) {
             HashMap<String, Integer> serverStatus = ServerQuery.getServerStatus();
-            lore.add(utils.chat("&a► &7Current Bans: &a" + serverStatus.get("CurrentBans")));
-            lore.add(utils.chat("&a► &7Current Reports: &a" + serverStatus.get("CurrentReports")));
-            lore.add(utils.chat("&a► &7Current Warns: &a" + serverStatus.get("CurrentWarns")));
+            lore.add(Utils.chat("&a► &7Current Bans: &a" + serverStatus.get("CurrentBans")));
+            lore.add(Utils.chat("&a► &7Current Reports: &a" + serverStatus.get("CurrentReports")));
+            lore.add(Utils.chat("&a► &7Current Warns: &a" + serverStatus.get("CurrentWarns")));
 
         } else {
-            lore.add(utils.chat("&a► &7Current Bans: &a" + utils.count("bans")));
-            lore.add(utils.chat("&a► &7Current Report: &a" + utils.count("reports")));
-            lore.add(utils.chat("&a► &7Current Warns: &a" + utils.count("warns")));
+            lore.add(Utils.chat("&a► &7Current Bans: &a" + Utils.count("bans")));
+            lore.add(Utils.chat("&a► &7Current Report: &a" + Utils.count("reports")));
+            lore.add(Utils.chat("&a► &7Current Warns: &a" + Utils.count("warns")));
         }
         metaServer.setLore(lore);
         server.setItemMeta(metaServer);
@@ -156,37 +155,37 @@ public class Items {
 
     public static ItemStack PlayerStats(Player p) {
         ArrayList<String> lore = new ArrayList<>();
-        ItemStack playerHead = utils.getPlayerHead(p.getName());
+        ItemStack playerHead = Utils.getPlayerHead(p.getName());
         ItemMeta metaPlayerHead = playerHead.getItemMeta();
-        metaPlayerHead.setDisplayName(utils.chat("&5" + p.getName().toUpperCase() + "'S STATS:"));
+        metaPlayerHead.setDisplayName(Utils.chat("&5" + p.getName().toUpperCase() + "'S STATS:"));
         metaPlayerHead.getPersistentDataContainer().set(new NamespacedKey(StaffCorePlugin.plugin, "player"), PersistentDataType.STRING, "players");
         if (p.getPersistentDataContainer().has(new NamespacedKey(StaffCorePlugin.plugin, "staff"), PersistentDataType.STRING)) {
-            lore.add(utils.chat("&a► &7Staff Mode &aOn"));
+            lore.add(Utils.chat("&a► &7Staff Mode &aOn"));
         }
         if (!p.getPersistentDataContainer().has(new NamespacedKey(StaffCorePlugin.plugin, "staff"), PersistentDataType.STRING)) {
-            lore.add(utils.chat("&a► &7Staff Mode &cOff"));
+            lore.add(Utils.chat("&a► &7Staff Mode &cOff"));
         }
         if (p.getPersistentDataContainer().has(new NamespacedKey(StaffCorePlugin.plugin, "staffchat"), PersistentDataType.STRING)) {
-            lore.add(utils.chat("&a► &7Staff Chat &aOn"));
+            lore.add(Utils.chat("&a► &7Staff Chat &aOn"));
         }
         if (!p.getPersistentDataContainer().has(new NamespacedKey(StaffCorePlugin.plugin, "staffchat"), PersistentDataType.STRING)) {
-            lore.add(utils.chat("&a► &7Staff Chat &cOff"));
+            lore.add(Utils.chat("&a► &7Staff Chat &cOff"));
         }
         if (p.getPersistentDataContainer().has(new NamespacedKey(StaffCorePlugin.plugin, "vanished"), PersistentDataType.STRING)) {
-            lore.add(utils.chat("&a► &7Vanished &aOn"));
+            lore.add(Utils.chat("&a► &7Vanished &aOn"));
         }
         if (!p.getPersistentDataContainer().has(new NamespacedKey(StaffCorePlugin.plugin, "vanished"), PersistentDataType.STRING)) {
-            lore.add(utils.chat("&a► &7Vanished &cOff"));
+            lore.add(Utils.chat("&a► &7Vanished &cOff"));
         }
         if (StaffCoreAPI.getTrollStatus(p.getName())) {
-            lore.add(utils.chat("&a► &7Troll Mode: &aON"));
+            lore.add(Utils.chat("&a► &7Troll Mode: &aON"));
         }
         if (!StaffCoreAPI.getTrollStatus(p.getName())) {
-            lore.add(utils.chat("&a► &7Troll Mode: &cOFF"));
+            lore.add(Utils.chat("&a► &7Troll Mode: &cOFF"));
         }
-        lore.add(utils.chat("&a► &7Gamemode: &b" + p.getGameMode()));
-        lore.add(utils.chat("&a► &7Ping: &a" + utils.getPing(p)));
-        lore.add(utils.chat("&a► &7Location: &d" + (int) p.getLocation().getX() + " &3" + (int) p.getLocation().getY() + " &d" + (int) p.getLocation().getZ()));
+        lore.add(Utils.chat("&a► &7Gamemode: &b" + p.getGameMode()));
+        lore.add(Utils.chat("&a► &7Ping: &a" + Utils.getPing(p)));
+        lore.add(Utils.chat("&a► &7Location: &d" + (int) p.getLocation().getX() + " &3" + (int) p.getLocation().getY() + " &d" + (int) p.getLocation().getZ()));
         metaPlayerHead.setLore(lore);
         playerHead.setItemMeta(metaPlayerHead);
         return playerHead;
@@ -201,17 +200,17 @@ public class Items {
             item = new ItemStack(Material.GRAY_DYE);
         }
         ItemMeta itemMeta = item.getItemMeta();
-        for (String key : utils.getStringList("fake_join_leave_msg.lore", "item")) {
-            lore.add(utils.chat(key));
+        for (String key : Utils.getStringList("fake_join_leave_msg.lore", "item")) {
+            lore.add(Utils.chat(key));
         }
         if (enabled) {
-            itemMeta.setDisplayName(utils.chat("&8Fake Join/Leave msg &aOn "));
+            itemMeta.setDisplayName(Utils.chat("&8Fake Join/Leave msg &aOn "));
             itemMeta.addEnchant(Enchantment.DAMAGE_ALL, 1, true);
             itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-            lore.add(utils.chat("&7Click to: &cDisable"));
+            lore.add(Utils.chat("&7Click to: &cDisable"));
         } else {
-            itemMeta.setDisplayName(utils.chat("&8Fake Join/Leave msg &cOff"));
-            lore.add(utils.chat("&7Click to: &aEnable"));
+            itemMeta.setDisplayName(Utils.chat("&8Fake Join/Leave msg &cOff"));
+            lore.add(Utils.chat("&7Click to: &aEnable"));
         }
         itemMeta.getPersistentDataContainer().set(new NamespacedKey(StaffCorePlugin.plugin, "FakeJoinOrLeave"), PersistentDataType.STRING, "FakeJoinOrLeave");
         itemMeta.setLore(lore);
@@ -221,11 +220,11 @@ public class Items {
 
     public static ItemStack ComingSoon() {
         ArrayList<String> lore = new ArrayList<>();
-        ItemStack item = new ItemStack(Material.getMaterial(utils.getString("menu_items.coming_soon.material", "item", null)));
+        ItemStack item = new ItemStack(Material.getMaterial(Utils.getString("menu_items.coming_soon.material", "item", null)));
         ItemMeta itemMeta = item.getItemMeta();
-        itemMeta.setDisplayName(utils.chat(utils.getString("menu_items.coming_soon.name", "item", null)));
-        for (String key : utils.getStringList("menu_items.coming_soon.lore", "item")) {
-            lore.add(utils.chat(key));
+        itemMeta.setDisplayName(Utils.chat(Utils.getString("menu_items.coming_soon.name", "item", null)));
+        for (String key : Utils.getStringList("menu_items.coming_soon.lore", "item")) {
+            lore.add(Utils.chat(key));
         }
         itemMeta.addEnchant(Enchantment.DAMAGE_ALL, 1, true);
         itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
@@ -237,11 +236,11 @@ public class Items {
 
     public static ItemStack WebServerStatus() {
         ArrayList<String> lore = new ArrayList<>();
-        ItemStack item = new ItemStack(Material.getMaterial(utils.getString("menu_items.coming_soon.material", "item", null)));
+        ItemStack item = new ItemStack(Material.getMaterial(Utils.getString("menu_items.coming_soon.material", "item", null)));
         ItemMeta itemMeta = item.getItemMeta();
-        itemMeta.setDisplayName(utils.chat(utils.getString("menu_items.coming_soon.name", "item", null)));
-        for (String key : utils.getStringList("menu_items.coming_soon.lore", "item")) {
-            lore.add(utils.chat(key));
+        itemMeta.setDisplayName(Utils.chat(Utils.getString("menu_items.coming_soon.name", "item", null)));
+        for (String key : Utils.getStringList("menu_items.coming_soon.lore", "item")) {
+            lore.add(Utils.chat(key));
         }
         itemMeta.addEnchant(Enchantment.DAMAGE_ALL, 1, true);
         itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
