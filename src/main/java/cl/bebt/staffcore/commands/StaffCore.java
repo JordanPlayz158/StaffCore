@@ -160,7 +160,6 @@ public class StaffCore implements TabExecutor {
                     Utils.tell(sender, "          &aAuthor: &d" + plugin.getDescription().getAuthors());
                     Utils.tell(sender, "          &aMysql: &d" + Utils.mysqlEnabled());
                     Utils.tell(sender, "          &aBungeeCord: &d" + Utils.getBoolean("bungeecord.enabled"));
-                    Utils.tell(sender, "          &aWeb Linked: &d" + Utils.isWebServerLinked());
                     Utils.tell(sender, "          &aServer Version: &d" + Utils.getServerVersion());
                     Utils.tell(sender, "          &aTPS: &d" + (int) Utils.getTPS());
                     Utils.tell(sender, " ");
@@ -252,23 +251,7 @@ public class StaffCore implements TabExecutor {
                         Utils.tell(sender, Utils.getString("wrong_usage", "lg", "staff").replace("%command%", "staffcore <version/vanished/staff/reload/changelanguage/link>"));
                     }
                 } else if (args.length == 4) {
-                    if (args[0].equalsIgnoreCase("link")) {
-                        if (sender.hasPermission("staffcore.linkweb")) {
-                            Player p = (Player) sender;
-                            Utils.linkWeb(p, args[1], args[2], args[3]);
-                        } else {
-                            Utils.tell(sender, Utils.getString("no_permission", "lg", "sv"));
-                        }
-                    } else if (args[0].equalsIgnoreCase("unlink")) {
-                        if (sender.hasPermission("staffcore.linkweb")) {
-                            Player p = (Player) sender;
-                            Utils.unlinkWeb(p, args[1], args[2], args[3]);
-                        } else {
-                            Utils.tell(sender, Utils.getString("no_permission", "lg", "sv"));
-                        }
-                    } else {
-                        Utils.tell(sender, Utils.getString("wrong_usage", "lg", "staff").replace("%command%", "staffcore <version/vanished/staff/reload/changelanguage/link>"));
-                    }
+                    Utils.tell(sender, Utils.getString("wrong_usage", "lg", "staff").replace("%command%", "staffcore <version/vanished/staff/reload/changelanguage/link>"));
                 } else {
                     Utils.tell(sender, Utils.getString("wrong_usage", "lg", "staff").replace("%command%", "staffcore <version/vanished/staff/reload/changelanguage/link>"));
                 }
