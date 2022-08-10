@@ -1,5 +1,5 @@
 name: StaffCore
-version: 4.4.6
+version: ${version}
 main: cl.bebt.staffcore.StaffCorePlugin
 authors: [BarraR3port, JordanPlayz158]
 prefix: StaffCore
