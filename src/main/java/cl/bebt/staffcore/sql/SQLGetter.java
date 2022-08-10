@@ -100,7 +100,7 @@ public class SQLGetter {
             createStaffCoreSettingsTable();
             if (!AltsQuery.checkAltsTable()) {
                 for (Player p : Bukkit.getOnlinePlayers()) {
-                    Utils.tellHover(p, "&cHEY STAFFCORE IS MAKING SOME UPDATES IN THE DB", "&aClick to see What's Going on", "https://staffcore.glitch.me/news/alts-migration");
+                    Utils.tellHover(p, "&cHEY STAFFCORE IS MAKING SOME UPDATES IN THE DB", "&aClick to see What's Going on", "https://www.spigotmc.org/resources/staff-core.104420/");
                 }
                 AltsQuery.MigrateAltsTable();
             }

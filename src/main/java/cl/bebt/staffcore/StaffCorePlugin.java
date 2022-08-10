@@ -115,7 +115,7 @@ public final class StaffCorePlugin extends JavaPlugin {
                                     Utils.tellHover(p, getConfig().getString("server_prefix") +
                                                     "&cYou are using an StaffCore older version",
                                             "&aClick to download the version: " + latestVersion,
-                                            "https://staffcore.glitch.me/download");
+                                            "https://www.spigotmc.org/resources/staff-core.104420/");
                                 }
                             }
                         }, 0L, 12000L);

@@ -141,7 +141,7 @@ public class OnPlayerJoin implements Listener {
                         Utils.tellHover(p, plugin.getConfig().getString("server_prefix") +
                                         "&cYou are using an StaffCore older version",
                                 "&aClick to download the version: " + plugin.latestVersion,
-                                "https://staffcore.glitch.me/download");
+                                "https://www.spigotmc.org/resources/staff-core.104420/");
                     }
                 }
                 if (player != p) {
