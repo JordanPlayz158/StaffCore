@@ -1,6 +1,7 @@
 package cl.bebt.staffcore.utils;
 
 import cl.bebt.staffcore.StaffCorePlugin;
+import cl.bebt.staffcore.commands.staff.Staff;
 import cl.bebt.staffcore.sql.queries.*;
 import cl.bebt.staffcore.utils.uuid.UUIDGetter;
 import dev.dbassett.skullcreator.SkullCreator;
@@ -196,13 +197,22 @@ public class Utils {
     }
 
     public static ItemStack getPlayerHead(String p) {
-        String b64 = "";
-        if (StaffCorePlugin.playerSkins.containsKey(p)) {
-            b64 = StaffCorePlugin.playerSkins.get(p);
-        } else {
-            b64 = Http.getHead("https://staffcore.glitch.me/api/head/" + p, p);
-        }
-        if (b64.length() != 0) {
+        /* For any future devs, this took me a bit to figure out
+         * getOrDefault and computeIfAbsent is not the same
+         * Don't ask me why but getOrDefault is a bit deceiving in my opinion
+         * You'd figure it'd check if the key exists and then do default
+         * But apparently it executes default every time regardless (which makes no sense to me)
+         * So if you have an api with rate limiting like idk... Mojang's api
+         * then you will quickly reach the rate limiting ceiling and have issues happen
+         * So always use computeIfAbsent if the "default" value is expensive or is in limited supply
+         */
+
+        String b64 = StaffCorePlugin.playerSkins.computeIfAbsent(p, ignored -> Http.getHead(p));
+
+
+        if (b64 != null && b64.isEmpty()) {
+            StaffCorePlugin.playerSkins.put(p, b64);
+
             return SkullCreator.itemFromBase64(b64);
         } else {
             if (mysqlEnabled()) {

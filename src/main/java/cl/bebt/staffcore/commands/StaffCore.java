@@ -69,11 +69,14 @@ public class StaffCore implements TabExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (!(sender instanceof Player)) {
             if (args.length == 0) {
+                List<String> authors = plugin.getDescription().getAuthors();
+
                 Utils.tell(sender, " ");
                 Utils.tell(sender, "                 &6&5StaffCore  &6");
                 Utils.tell(sender, " ");
                 Utils.tell(sender, "          &aVersion: &d" + plugin.getDescription().getVersion());
-                Utils.tell(sender, "          &aAuthor: &dBarrar3port");
+                Utils.tell(sender, "          &aAuthor: &d" + authors.get(0));
+                Utils.tell(sender, "          &aUNOFFICIAL Maintainer: &d" + authors.get(1));
                 Utils.tell(sender, "          &aMysql: &d" + Utils.mysqlEnabled());
                 Utils.tell(sender, "          &aBungeeCord: &d" + Utils.getBoolean("bungeecord.enabled"));
                 Utils.tell(sender, "          &aServer Version: &d" + Utils.getServerVersion());
@@ -153,11 +156,14 @@ public class StaffCore implements TabExecutor {
         } else {
             if (sender.hasPermission("staffcore.staff")) {
                 if (args.length == 0) {
+                    List<String> authors = plugin.getDescription().getAuthors();
+
                     Utils.tell(sender, " ");
                     Utils.tell(sender, "                 &6&5StaffCore  &6");
                     Utils.tell(sender, " ");
                     Utils.tell(sender, "          &aVersion: &d" + plugin.getDescription().getVersion());
-                    Utils.tell(sender, "          &aAuthor: &d" + plugin.getDescription().getAuthors());
+                    Utils.tell(sender, "          &aAuthor: &d" + authors.get(0));
+                    Utils.tell(sender, "          &aUNOFFICIAL Maintainer: &d" + authors.get(1));
                     Utils.tell(sender, "          &aMysql: &d" + Utils.mysqlEnabled());
                     Utils.tell(sender, "          &aBungeeCord: &d" + Utils.getBoolean("bungeecord.enabled"));
                     Utils.tell(sender, "          &aServer Version: &d" + Utils.getServerVersion());

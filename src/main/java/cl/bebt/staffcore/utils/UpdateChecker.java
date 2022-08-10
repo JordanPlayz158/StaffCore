@@ -29,27 +29,10 @@ public class UpdateChecker {
 
     public void getLatestVersion(Consumer<String> consumer) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            try {
-                URL url = new URL(REQUEST_URL);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.addRequestProperty("User-Agent", USER_AGENT);// Set User-Agent
+            String version = GSON.fromJson(Http.getURLContent(REQUEST_URL, USER_AGENT), JsonObject.class).get("name").getAsString();
 
-                // If you're not sure if the request will be successful,
-                // you need to check the response code and use #getErrorStream if it returned an error code
-                InputStream inputStream = connection.getInputStream();
-                String responseBody = new BufferedReader(
-                        new InputStreamReader(inputStream, StandardCharsets.UTF_8))
-                        .lines()
-                        .collect(Collectors.joining("\n"));
-
-                String version = GSON.fromJson(responseBody, JsonObject.class).get("name").getAsString();
-
-                plugin.latestVersion = version;
-                consumer.accept(version);
-            } catch (IOException e) {
-                Utils.tell(plugin.getServer().getConsoleSender(), "&cAn unknown error occurred while getting the latest version!");
-                e.printStackTrace();
-            }
+            plugin.latestVersion = version;
+            consumer.accept(version);
         });
     }
 }

@@ -37,7 +37,7 @@ public class AltsQuery {
         int intento = 0;
         while (intento < 4) {
             try {
-                String Skin = Http.getHead("https://staffcore.glitch.me/api/head/" + player, player);
+                String Skin = Http.getHead(player);
                 PreparedStatement statement = Mysql.getConnection().prepareStatement("INSERT INTO sc_alts(Name, IPs, UUID, Skin) VALUES (?,?,?,?)");
                 statement.setString(1, player);
                 statement.setString(2, IP);
@@ -217,15 +217,15 @@ public class AltsQuery {
                     .replace("]", "");
 
             JSONObject alts = new JSONObject(rawAlts);
-            String Name = alts.getString("Name");
+            String name = alts.getString("Name");
             String uuid = alts.getString("UUID");
             String Ips = alts.getString("IP");
-            String Skin = Http.getHead("https://staffcore.glitch.me/api/head/" + Name, Name);
+            String Skin = Http.getHead(name);
             try {
                 PreparedStatement statement;
                 statement = Mysql.getConnection().prepareStatement("INSERT INTO sc_alts(UUID, Name, IPs, Skin) VALUES (?,?,?,?)");
                 statement.setString(1, uuid);
-                statement.setString(2, Name);
+                statement.setString(2, name);
                 statement.setString(3, Ips);
                 statement.setString(4, Skin);
                 statement.executeUpdate();
