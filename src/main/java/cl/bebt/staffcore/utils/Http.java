@@ -34,15 +34,8 @@ public class Http {
 
             String signature = getURLContent("https://sessionserver.mojang.com/session/minecraft/profile/" + uid);
             JsonObject signatureJson = gson.fromJson(signature, JsonObject.class);
-            String value = signatureJson.getAsJsonArray("properties").get(0).getAsJsonObject().get("value").getAsString();
-            String decoded = new String(Base64.getDecoder().decode(value));
 
-            JsonObject decodedSignatureJson = gson.fromJson(decoded,JsonObject.class);
-            String texturesJson = gson.toJson(decodedSignatureJson);
-
-            byte[] skinByte = texturesJson.getBytes();
-
-            return new String(Base64.getEncoder().encode(skinByte));
+            return signatureJson.getAsJsonArray("properties").get(0).getAsJsonObject().get("value").getAsString();
         } catch (Exception e) {
             e.printStackTrace();
         }
