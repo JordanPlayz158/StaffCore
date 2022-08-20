@@ -18,7 +18,7 @@ public class TpPlayers {
                     sender.teleport(target.getLocation());
                     Utils.tell(sender, Utils.getString("tp.player_to_player", "lg", "sv").replace("%target%", target.getName()));
                     if (Utils.getBoolean("alerts.tp_to_them")) {
-                        Utils.tell(target, Utils.getString("tp.tp_to_them", "lg", "sv").replace("%sender%", player));
+                        Utils.tell(target, Utils.getString("tp.tp_to_them", "lg", "sv").replace("%sender%", sender.getName()));
                     }
                 } else {
                     Utils.tell(sender, Utils.getString("tp.to_yourself", "lg", "sv"));
