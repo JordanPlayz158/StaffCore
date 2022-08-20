@@ -17,7 +17,7 @@ public class Warnings implements TabExecutor {
 
     public Warnings(StaffCorePlugin plugin) {
         this.plugin = plugin;
-        plugin.getCommand("warningns").setExecutor(this);
+        plugin.getCommand("warnings").setExecutor(this);
     }
 
     @Override
