@@ -1,7 +1,6 @@
 package cl.bebt.staffcore.utils;
 
 import cl.bebt.staffcore.StaffCorePlugin;
-import cl.bebt.staffcore.commands.staff.Staff;
 import cl.bebt.staffcore.sql.queries.*;
 import cl.bebt.staffcore.utils.uuid.UUIDGetter;
 import dev.dbassett.skullcreator.SkullCreator;
@@ -17,7 +16,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.json.JSONObject;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
@@ -210,7 +208,7 @@ public class Utils {
         String b64 = StaffCorePlugin.playerSkins.computeIfAbsent(p, ignored -> Http.getHead(p));
 
 
-        if (b64 != null && b64.isEmpty()) {
+        if (b64 != null && !b64.isEmpty()) {
             StaffCorePlugin.playerSkins.put(p, b64);
 
             return SkullCreator.itemFromBase64(b64);
