@@ -23,6 +23,7 @@ import cl.bebt.staffcore.sql.Mysql;
 import cl.bebt.staffcore.sql.queries.StaffQuery;
 import cl.bebt.staffcore.sql.SQLGetter;
 import cl.bebt.staffcore.utils.*;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.ConsoleCommandSender;
@@ -146,7 +147,7 @@ public final class StaffCorePlugin extends JavaPlugin {
         new ClearChat(plugin);
         new Weather(plugin);
         new Suicide(plugin);
-        new Metrics(plugin, 8871);
+        new Metrics(plugin, 18208);
         new Wipe(plugin);
         new UnBan(plugin);
         new Ban(plugin);

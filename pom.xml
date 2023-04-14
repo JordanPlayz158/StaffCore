@@ -6,7 +6,7 @@
 
     <groupId>cl.bebt.staffcore</groupId>
     <artifactId>staffcore</artifactId>
-    <version>4.4.8</version>
+    <version>4.4.9</version>
     <packaging>jar</packaging>
 
     <name>StaffCore</name>
@@ -18,9 +18,8 @@
 
     <distributionManagement>
         <repository>
-            <id>github</id>
-            <name>GitHub BarraR3port Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/BarraR3port/staffcore</url>
+            <id>jordanplayz158-reposilite</id>
+            <url>https://maven.jordanplayz158.xyz/releases</url>
         </repository>
     </distributionManagement>
 
@@ -126,6 +125,15 @@
             <artifactId>gson</artifactId>
             <version>2.9.1</version>
         </dependency>
+
+        <!-- bStats -->
+        <dependency>
+            <groupId>org.bstats</groupId>
+            <artifactId>bstats-bukkit</artifactId>
+            <version>3.0.2</version>
+            <scope>compile</scope>
+        </dependency>
+
         <!-- SkullCreator -->
         <dependency>
             <groupId>dev.dbassett</groupId>
