@@ -9,7 +9,7 @@ pipeline {
 
     stage('Deploy if tagged') {
       steps {
-        sh 'if [[ -z "${TAG_NAME}" ]]; then mvn deploy fi'
+        sh 'if [[ -z "${TAG_NAME}" ]]; then mvn deploy; fi'
       }
     }
 
